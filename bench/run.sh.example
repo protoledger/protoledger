@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Замеры на контрольном профиле: 4 vCPU, 8 ГиБ. Переименовать в run.sh, когда в движке появится команда bench.
+# Команда bench сама печатает время операций и пиковую память (VmHWM из /proc/self/status).
+# Использование: bench/run.sh <образ>
+set -euo pipefail
+image="${1:?образ}"
+mkdir -p bench/results
+docker run --rm --cpus=4 --memory=8g --memory-swap=8g \
+  -v "$PWD/bench/data:/bench:ro" "$image" bench /bench --json \
+  | tee "bench/results/$(date -u +%Y%m%dT%H%M%SZ).json"

@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${PORT:-8080}:8080"
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    volumes:
+      - ./workspace:/data
+    restart: unless-stopped

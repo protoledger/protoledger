@@ -1,0 +1,73 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  pr-title:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Формат заголовка PR
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s' "$TITLE" | grep -qE '^(feat|fix|refactor|perf|test|docs|build|ci|chore|style|revert)(\([a-z0-9._/-]+\))?!?: .+' \
+            || { echo "Заголовок PR: <тип>(<скоуп>): <описание по-русски>"; exit 1; }
+          printf '%s' "$TITLE" | grep -qP '\p{Cyrillic}' || { echo "Описание в заголовке PR — по-русски"; exit 1; }
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - name: Есть ли что собирать
+        id: ready
+        run: |
+          if [ -f backend/Cargo.toml ] && [ -f frontend/package.json ]; then echo "ok=true" >> "$GITHUB_OUTPUT"
+          else echo "Сабмодули ещё без кода — сборку пропускаю"; echo "ok=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: docker/setup-buildx-action@v3
+        if: steps.ready.outputs.ok == 'true'
+      - name: Сборка образа
+        if: steps.ready.outputs.ok == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: app:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Смоук-тест
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          docker run -d --name app -p 8080:8080 app:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/api/health; then exit 0; fi
+            sleep 2
+          done
+          docker logs app
+          exit 1
+      - name: Замеры в профиле 4 vCPU / 8 ГиБ
+        if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
+        run: bash bench/run.sh app:ci
+
+  ci:
+    if: always()
+    needs: [pr-title, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Итог
+        run: |
+          for r in "${{ needs.pr-title.result }}" "${{ needs.build.result }}"; do
+            case "$r" in success|skipped) ;; *) echo "есть упавшие проверки: $r"; exit 1 ;; esac
+          done

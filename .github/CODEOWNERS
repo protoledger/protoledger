@@ -1,0 +1,7 @@
+# Сборка, поставка, сабмодули — ревью DevOps-пары
+/.github/       @sleepyhead-dev @OddS-Programming
+/Dockerfile     @sleepyhead-dev @OddS-Programming
+/compose*.yaml  @sleepyhead-dev @OddS-Programming
+/.gitmodules    @sleepyhead-dev @OddS-Programming
+/deploy/        @sleepyhead-dev @OddS-Programming
+/packaging/     @sleepyhead-dev @OddS-Programming
