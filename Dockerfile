@@ -14,7 +14,7 @@ WORKDIR /src
 COPY backend/ ./
 COPY --from=ui /ui/.output/public /ui-dist
 ENV UI_DIST=/ui-dist
-RUN cargo build --release --locked && cp target/release/protoledger /protoledger
+RUN cargo build --release --locked -p protoledger && cp target/release/protoledger /protoledger
 
 FROM debian:trixie-slim
 RUN apt-get update \

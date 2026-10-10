@@ -44,7 +44,7 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Интерфейс: http://localhost:8080. Документация API: http://localhost:8080/api/docs.
+Интерфейс: http://localhost:8080. Описание API — `API.md` и `openapi.yaml` в [репозитории движка](https://github.com/protoledger/protoledger-backend); Swagger UI есть только в dev-сборке ([docs/dev.md](docs/dev.md)).
 
 ## Структура репозитория
 

@@ -9,6 +9,7 @@
 !/README.md
 !/LICENSE
 !/Dockerfile
+!/Dockerfile.dev
 !/.env.example
 !/docs/**
 !/scripts/**
