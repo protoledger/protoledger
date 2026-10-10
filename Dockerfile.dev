@@ -1,0 +1,23 @@
+# syntax=docker/dockerfile:1
+# Dev-сборка движка для разработки фронтенда: с Swagger UI и режимом serve --dev (ADR 0011).
+# Интерфейс не встраивается: фронтенд запускают отдельно (pnpm dev), движок — отсюда.
+# Не для жюри: образ для жюри собирает Dockerfile без feature dev-tools.
+
+FROM rust:1-trixie AS engine
+WORKDIR /src
+COPY backend/ ./
+RUN cargo build --release --locked -p protoledger --features dev-tools \
+ && cp target/release/protoledger /protoledger
+
+FROM debian:trixie-slim
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl \
+ && rm -rf /var/lib/apt/lists/* \
+ && useradd --system --uid 10001 --create-home app
+COPY --from=engine /protoledger /usr/local/bin/protoledger
+USER app
+WORKDIR /data
+EXPOSE 8080
+HEALTHCHECK --interval=10s --timeout=3s CMD curl -fsS http://127.0.0.1:8080/api/health || exit 1
+ENTRYPOINT ["protoledger"]
+CMD ["serve", "--dev", "--host", "0.0.0.0", "--port", "8080", "--workspace", "/data"]

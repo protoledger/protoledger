@@ -57,17 +57,62 @@ jobs:
           done
           docker logs app
           exit 1
+      - name: В релизной сборке нет инструментов разработки
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          docker create --name probe app:ci
+          docker cp probe:/usr/local/bin/protoledger /tmp/protoledger
+          docker rm probe
+          bash backend/scripts/check-release-clean.sh /tmp/protoledger
+          code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/docs/)
+          [ "$code" = "404" ] || { echo "/api/docs/ вернул $code, ожидался 404"; exit 1; }
       - name: Замеры в профиле 4 vCPU / 8 ГиБ
         if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
         run: bash bench/run.sh app:ci
 
+  dev-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - name: Есть ли код движка
+        id: ready
+        run: |
+          if [ -f backend/Cargo.toml ]; then echo "ok=true" >> "$GITHUB_OUTPUT"
+          else echo "Сабмодуль backend без кода — пропускаю"; echo "ok=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: docker/setup-buildx-action@v3
+        if: steps.ready.outputs.ok == 'true'
+      - name: Сборка dev-образа
+        if: steps.ready.outputs.ok == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.dev
+          load: true
+          tags: app:dev
+          cache-from: type=gha,scope=dev
+          cache-to: type=gha,mode=max,scope=dev
+      - name: Смоук dev-режима
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          docker run -d --name dev -e PROTOLEDGER_DEV_TOKEN=ci-dev-token -p 8080:8080 app:dev
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/api/health >/dev/null; then break; fi
+            sleep 2
+          done
+          curl -fsS -H "X-Protoledger-Token: ci-dev-token" http://127.0.0.1:8080/api/jobs
+          curl -fsS http://127.0.0.1:8080/api/docs/ >/dev/null
+          code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/jobs)
+          [ "$code" = "401" ] || { echo "без токена ожидался 401, получено $code"; docker logs dev; exit 1; }
+
   ci:
     if: always()
-    needs: [pr-title, build]
+    needs: [pr-title, build, dev-image]
     runs-on: ubuntu-latest
     steps:
       - name: Итог
         run: |
-          for r in "${{ needs.pr-title.result }}" "${{ needs.build.result }}"; do
+          for r in "${{ needs.pr-title.result }}" "${{ needs.build.result }}" "${{ needs.dev-image.result }}"; do
             case "$r" in success|skipped) ;; *) echo "есть упавшие проверки: $r"; exit 1 ;; esac
           done
