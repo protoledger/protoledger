@@ -66,6 +66,9 @@ jobs:
           bash backend/scripts/check-release-clean.sh /tmp/protoledger
           code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/docs/)
           [ "$code" = "404" ] || { echo "/api/docs/ вернул $code, ожидался 404"; exit 1; }
+      - name: Эталоны examples/ (apply совпадает с expected)
+        if: steps.ready.outputs.ok == 'true'
+        run: bash examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci
       - name: Замеры в профиле 4 vCPU / 8 ГиБ
         if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
         run: bash bench/run.sh app:ci

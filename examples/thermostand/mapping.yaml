@@ -1,0 +1,7 @@
+time: start_utc
+action: action
+params: parameters
+result: observed_result
+paramsFormat: json
+resultFormat: json
+source: capture

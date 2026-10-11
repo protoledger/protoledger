@@ -8,3 +8,5 @@
 *.ico binary
 *.pdf binary
 *.woff2 binary
+# Набор организаторов — байт в байт, без преобразования концов строк.
+examples/thermostand/sample_protocol/** -text
