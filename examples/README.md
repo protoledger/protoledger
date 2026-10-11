@@ -1,6 +1,17 @@
 # Примеры входных данных и ожидаемые результаты
 
-Записи ничего не знают о протоколе устройства: `interpretation.yaml` — готовое описание («ключ ответов»), с которым проверяется работа движка. Каталоги получены генераторами движка ([protoledger-backend](https://github.com/protoledger/protoledger-backend), `fixtures/`) и не правятся руками.
+Записи ничего не знают о протоколе устройства: `interpretation.yaml` — готовое описание («ключ ответов»), с которым проверяется работа движка. `stand` и `hostile` получены генераторами движка ([protoledger-backend](https://github.com/protoledger/protoledger-backend), `fixtures/`), `thermostand` — набор организаторов; записи не правятся руками.
+
+## thermostand — набор организаторов
+
+Записи и журнал «Термостенда» без изменений, восстановленное описание протокола и эталоны `apply` на каждой записи, включая дополнительную. Подробно — [thermostand/README.md](thermostand/README.md).
+
+Сверить все эталоны примеров разом (CI делает это на каждом изменении):
+
+```bash
+bash examples/check.sh protoledger
+bash examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci
+```
 
 ## stand — запись устройства и журнал действий
 
