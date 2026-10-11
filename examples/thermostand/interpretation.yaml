@@ -6,6 +6,7 @@ scope:
 framing:
   kind: length_prefixed
   length: { at: 2, type: u16be, adjust: 8 }
+  sync: "a65c"
   status: rule
 messages:
   - id: read_config_req
@@ -77,10 +78,17 @@ messages:
       - { name: cmd, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
       - { name: status, at: 8, type: u8, status: hypothesis, hypothesis: H9 }
       - { name: count, at: 9, type: u8, status: hypothesis, hypothesis: H8 }
-      - { name: first_device_time_ms, at: 10, type: u32be, status: hypothesis, hypothesis: H10 }
-      - { name: first_temperature_centi_c, at: 14, type: i16be, status: hypothesis, hypothesis: H10 }
-      - { name: first_alarm, at: 16, type: u8, status: hypothesis, hypothesis: H11 }
-      - { name: measurements, at: 10, type: bytes, len: "count * 7", status: hypothesis, hypothesis: H10 }
+      - name: measurements
+        at: 10
+        type: bytes
+        status: hypothesis
+        hypothesis: H10
+        repeat:
+          count: "count"
+          fields:
+            - { name: device_time_ms, at: 0, type: u32be, status: hypothesis, hypothesis: H10 }
+            - { name: temperature_centi_c, at: 4, type: i16be, status: hypothesis, hypothesis: H10 }
+            - { name: alarm, at: 6, type: u8, status: hypothesis, hypothesis: H11 }
   - id: error_resp
     description: Отказ устройства — только код статуса
     when: "dir == 1 && status != 0"
@@ -101,8 +109,8 @@ hypotheses:
   - { id: H7, statement: "label — метка устройства в UTF-8, длина в байтах в label_len", test: "label == action.params.label" }
   - { id: H8, statement: "count — число запрошенных или переданных измерений", test: "count == action.params.count" }
   - { id: H9, statement: "status — 0 ок, 1 неподдерживаемая команда, 2 некорректное тело, 3 значение вне диапазона, 4 измерения отключены", test: "(status == 0) == (action.result.status == \"ok\")" }
-  - { id: H10, statement: "измерение — 7 байт: время устройства u32 мс, температура i16 в сотых °C, признак тревоги u8", test: "first_device_time_ms == action.result.measurements.0.device_time_ms && first_temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)" }
-  - { id: H11, statement: "alarm — 1, если температура достигла порога или превысила его", test: "first_alarm == action.result.measurements.0.alarm" }
+  - { id: H10, statement: "измерение — 7 байт: время устройства u32 мс, температура i16 в сотых °C, признак тревоги u8", test: "measurements.0.device_time_ms == action.result.measurements.0.device_time_ms && measurements.0.temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)" }
+  - { id: H11, statement: "alarm — 1, если температура достигла порога или превысила его", test: "measurements.0.alarm == action.result.measurements.0.alarm" }
   - { id: H12, statement: "ответ с настройками передаёт текущую конфигурацию устройства", test: "enabled == action.result.configuration.enabled && period_ms == action.result.configuration.period_ms && threshold_centi_c == dec(action.result.configuration.threshold_c, 2) && label == action.result.configuration.label" }
 checks:
   - { id: C1, kind: structural, expr: "length + 8 == message.len", description: "длина в заголовке не совпадает с размером сообщения" }
