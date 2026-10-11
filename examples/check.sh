@@ -19,6 +19,14 @@ cases=(
   "thermostand|apply-02_variations|sample_protocol/research/02_variations.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
   "thermostand|apply-03_combined_messages|sample_protocol/research/03_combined_messages.pcap|sample_protocol/action_journal.csv|mapping.yaml"
   "thermostand|apply-04_new_observations|sample_protocol/additional/04_new_observations.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-01_retransmission|sample_protocol/diagnostics/01_retransmission.pcap|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-02_reordered|sample_protocol/diagnostics/02_reordered.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-03_missing_segment|sample_protocol/diagnostics/03_missing_segment.pcap|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-04_snaplen_truncated|sample_protocol/diagnostics/04_snaplen_truncated.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-05_conflicting_overlap|sample_protocol/diagnostics/05_conflicting_overlap.pcap|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-06_missing_beginning|sample_protocol/diagnostics/06_missing_beginning.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-07_checksum_offload|sample_protocol/diagnostics/07_checksum_offload.pcap|sample_protocol/action_journal.csv|mapping.yaml"
+  "thermostand|apply-diag-08_bad_checksum|sample_protocol/diagnostics/08_bad_checksum.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
 )
 
 tmp="$(mktemp -d)"

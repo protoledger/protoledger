@@ -1,7 +1,7 @@
 {
   "format": "protoledger/apply-result@1",
   "engineVersion": "0.1.0",
-  "interpretationDigest": "d0cacf936a5f4fa4bc14d772e0d3c6efc8a33133167d59ccdcaf4033e31862a4",
+  "interpretationDigest": "671ad13afc4371bb6c721ebf963e12baeda59be84880126a120b0514e4023999",
   "policy": {
     "overlap": "first",
     "checksum": "warn"
@@ -1081,7 +1081,17 @@
                   "value": 1
                 },
                 {
-                  "name": "first_device_time_ms",
+                  "name": "measurements",
+                  "at": 46,
+                  "len": 7,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
                   "at": 46,
                   "len": 4,
                   "status": "hypothesis",
@@ -1091,7 +1101,7 @@
                   "value": 1000
                 },
                 {
-                  "name": "first_temperature_centi_c",
+                  "name": "measurements.0.temperature_centi_c",
                   "at": 50,
                   "len": 2,
                   "status": "hypothesis",
@@ -1101,7 +1111,7 @@
                   "value": 1850
                 },
                 {
-                  "name": "first_alarm",
+                  "name": "measurements.0.alarm",
                   "at": 52,
                   "len": 1,
                   "status": "hypothesis",
@@ -1109,16 +1119,6 @@
                   "state": "decoded",
                   "valueType": "int",
                   "value": 0
-                },
-                {
-                  "name": "measurements",
-                  "at": 46,
-                  "len": 7,
-                  "status": "hypothesis",
-                  "hypothesis": "H10",
-                  "state": "decoded",
-                  "valueType": "bytes",
-                  "value": "000003e8073a00"
                 }
               ],
               "violations": []
@@ -1321,7 +1321,17 @@
                   "value": 3
                 },
                 {
-                  "name": "first_device_time_ms",
+                  "name": "measurements",
+                  "at": 81,
+                  "len": 21,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
                   "at": 81,
                   "len": 4,
                   "status": "hypothesis",
@@ -1331,7 +1341,7 @@
                   "value": 2000
                 },
                 {
-                  "name": "first_temperature_centi_c",
+                  "name": "measurements.0.temperature_centi_c",
                   "at": 85,
                   "len": 2,
                   "status": "hypothesis",
@@ -1341,7 +1351,7 @@
                   "value": 2125
                 },
                 {
-                  "name": "first_alarm",
+                  "name": "measurements.0.alarm",
                   "at": 87,
                   "len": 1,
                   "status": "hypothesis",
@@ -1351,14 +1361,64 @@
                   "value": 1
                 },
                 {
-                  "name": "measurements",
-                  "at": 81,
-                  "len": 21,
+                  "name": "measurements.1.device_time_ms",
+                  "at": 88,
+                  "len": 4,
                   "status": "hypothesis",
                   "hypothesis": "H10",
                   "state": "decoded",
-                  "valueType": "bytes",
-                  "value": "000007d0084d0100000bb809c40100000fa0fdda00"
+                  "valueType": "int",
+                  "value": 3000
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 92,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2500
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 94,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.2.device_time_ms",
+                  "at": 95,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4000
+                },
+                {
+                  "name": "measurements.2.temperature_centi_c",
+                  "at": 99,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -550
+                },
+                {
+                  "name": "measurements.2.alarm",
+                  "at": 101,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
                 }
               ],
               "violations": []
@@ -2501,7 +2561,17 @@
                   "value": 2
                 },
                 {
-                  "name": "first_device_time_ms",
+                  "name": "measurements",
+                  "at": 49,
+                  "len": 14,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
                   "at": 49,
                   "len": 4,
                   "status": "hypothesis",
@@ -2511,7 +2581,7 @@
                   "value": 4500
                 },
                 {
-                  "name": "first_temperature_centi_c",
+                  "name": "measurements.0.temperature_centi_c",
                   "at": 53,
                   "len": 2,
                   "status": "hypothesis",
@@ -2521,7 +2591,7 @@
                   "value": 0
                 },
                 {
-                  "name": "first_alarm",
+                  "name": "measurements.0.alarm",
                   "at": 55,
                   "len": 1,
                   "status": "hypothesis",
@@ -2531,14 +2601,34 @@
                   "value": 0
                 },
                 {
-                  "name": "measurements",
-                  "at": 49,
-                  "len": 14,
+                  "name": "measurements.1.device_time_ms",
+                  "at": 56,
+                  "len": 4,
                   "status": "hypothesis",
                   "hypothesis": "H10",
                   "state": "decoded",
-                  "valueType": "bytes",
-                  "value": "0000119400000000001388076c00"
+                  "valueType": "int",
+                  "value": 5000
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 60,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1900
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 62,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
                 }
               ],
               "violations": []
@@ -2741,7 +2831,17 @@
                   "value": 4
                 },
                 {
-                  "name": "first_device_time_ms",
+                  "name": "measurements",
+                  "at": 94,
+                  "len": 28,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
                   "at": 94,
                   "len": 4,
                   "status": "hypothesis",
@@ -2751,7 +2851,7 @@
                   "value": 5500
                 },
                 {
-                  "name": "first_temperature_centi_c",
+                  "name": "measurements.0.temperature_centi_c",
                   "at": 98,
                   "len": 2,
                   "status": "hypothesis",
@@ -2761,7 +2861,7 @@
                   "value": 2100
                 },
                 {
-                  "name": "first_alarm",
+                  "name": "measurements.0.alarm",
                   "at": 100,
                   "len": 1,
                   "status": "hypothesis",
@@ -2771,14 +2871,94 @@
                   "value": 1
                 },
                 {
-                  "name": "measurements",
-                  "at": 94,
-                  "len": 28,
+                  "name": "measurements.1.device_time_ms",
+                  "at": 101,
+                  "len": 4,
                   "status": "hypothesis",
                   "hypothesis": "H10",
                   "state": "decoded",
-                  "valueType": "bytes",
-                  "value": "0000157c083401000017700dac0100001964ff830000001b58035200"
+                  "valueType": "int",
+                  "value": 6000
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 105,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3500
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 107,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.2.device_time_ms",
+                  "at": 108,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 6500
+                },
+                {
+                  "name": "measurements.2.temperature_centi_c",
+                  "at": 112,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -125
+                },
+                {
+                  "name": "measurements.2.alarm",
+                  "at": 114,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.3.device_time_ms",
+                  "at": 115,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 7000
+                },
+                {
+                  "name": "measurements.3.temperature_centi_c",
+                  "at": 119,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 850
+                },
+                {
+                  "name": "measurements.3.alarm",
+                  "at": 121,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
                 }
               ],
               "violations": []
@@ -2928,8 +3108,8 @@
     {
       "id": "H10",
       "statement": "измерение — 7 байт: время устройства u32 мс, температура i16 в сотых °C, признак тревоги u8",
-      "test": "first_device_time_ms == action.result.measurements.0.device_time_ms && first_temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
-      "test": "first_device_time_ms == action.result.measurements.0.device_time_ms && first_temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
+      "test": "measurements.0.device_time_ms == action.result.measurements.0.device_time_ms && measurements.0.temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
+      "test": "measurements.0.device_time_ms == action.result.measurements.0.device_time_ms && measurements.0.temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
       "verdict": "no_counterexample",
       "applicable": 4,
       "held": 4,
@@ -2945,8 +3125,8 @@
     {
       "id": "H11",
       "statement": "alarm — 1, если температура достигла порога или превысила его",
-      "test": "first_alarm == action.result.measurements.0.alarm",
-      "test": "first_alarm == action.result.measurements.0.alarm",
+      "test": "measurements.0.alarm == action.result.measurements.0.alarm",
+      "test": "measurements.0.alarm == action.result.measurements.0.alarm",
       "verdict": "no_counterexample",
       "applicable": 4,
       "held": 4,

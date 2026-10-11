@@ -1,0 +1,2111 @@
+{
+  "format": "protoledger/apply-result@1",
+  "engineVersion": "0.1.0",
+  "interpretationDigest": "671ad13afc4371bb6c721ebf963e12baeda59be84880126a120b0514e4023999",
+  "policy": {
+    "overlap": "first",
+    "checksum": "warn"
+  },
+  "summary": {
+    "inputs": 1,
+    "streams": 2,
+    "outOfScopeStreams": 0,
+    "messages": 15,
+    "unknownBytes": 35,
+    "counts": {
+      "matched": 14,
+      "ambiguous": 1
+    }
+  },
+  "inputs": [
+    {
+      "name": "05_conflicting_overlap.pcap",
+      "sha256": "abee9bbd87963c263eace6fb948f655590096296eaf1cf2264f04a0a93440ac9",
+      "format": "pcap",
+      "frames": 52,
+      "connections": 1,
+      "diagnostics": [],
+      "streams": [
+        {
+          "id": "abee9bbd:c0001:ab",
+          "outOfScope": false,
+          "counts": {
+            "matched": 8
+          },
+          "unknownBytes": 0,
+          "messages": [
+            {
+              "start": 0,
+              "end": 8,
+              "category": "matched",
+              "messageId": "read_config_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 0,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 2,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "seq",
+                  "at": 4,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "dir",
+                  "at": 6,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 7,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 8,
+              "end": 17,
+              "category": "matched",
+              "messageId": "read_values_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 8,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 10,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "seq",
+                  "at": 12,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "dir",
+                  "at": 14,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 15,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "count",
+                  "at": 16,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 17,
+              "end": 36,
+              "category": "matched",
+              "messageId": "set_config_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 17,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 19,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 11
+                },
+                {
+                  "name": "seq",
+                  "at": 21,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "dir",
+                  "at": 23,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 24,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 32
+                },
+                {
+                  "name": "enabled",
+                  "at": 25,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H4",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "period_ms",
+                  "at": 26,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 200
+                },
+                {
+                  "name": "threshold_centi_c",
+                  "at": 28,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H6",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "label_len",
+                  "at": 30,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "label",
+                  "at": 31,
+                  "len": 5,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "North"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 36,
+              "end": 44,
+              "category": "matched",
+              "messageId": "read_config_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 36,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 38,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "seq",
+                  "at": 40,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "dir",
+                  "at": 42,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 43,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 44,
+              "end": 53,
+              "category": "matched",
+              "messageId": "read_values_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 44,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 46,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "seq",
+                  "at": 48,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "dir",
+                  "at": 50,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 51,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "count",
+                  "at": 52,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 53,
+              "end": 62,
+              "category": "matched",
+              "messageId": "read_values_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 53,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 55,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "seq",
+                  "at": 57,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 6
+                },
+                {
+                  "name": "dir",
+                  "at": 59,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 60,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "count",
+                  "at": 61,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 62,
+              "end": 70,
+              "category": "matched",
+              "messageId": "read_config_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 62,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 64,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "seq",
+                  "at": 66,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 7
+                },
+                {
+                  "name": "dir",
+                  "at": 68,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 69,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 70,
+              "end": 79,
+              "category": "matched",
+              "messageId": "read_values_req",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 70,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 72,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "seq",
+                  "at": 74,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 8
+                },
+                {
+                  "name": "dir",
+                  "at": 76,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "cmd",
+                  "at": 77,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "count",
+                  "at": 78,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                }
+              ],
+              "violations": []
+            }
+          ]
+        },
+        {
+          "id": "abee9bbd:c0001:ba",
+          "outOfScope": false,
+          "counts": {
+            "matched": 6,
+            "ambiguous": 1
+          },
+          "unknownBytes": 35,
+          "messages": [
+            {
+              "start": 0,
+              "end": 35,
+              "category": "ambiguous",
+              "messageId": null,
+              "unknownBytes": 35,
+              "fields": [],
+              "violations": []
+            },
+            {
+              "start": 35,
+              "end": 55,
+              "category": "matched",
+              "messageId": "config_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 35,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 37,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 12
+                },
+                {
+                  "name": "seq",
+                  "at": 39,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "dir",
+                  "at": 41,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 42,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 32
+                },
+                {
+                  "name": "status",
+                  "at": 43,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "enabled",
+                  "at": 44,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H4",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "period_ms",
+                  "at": 45,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 200
+                },
+                {
+                  "name": "threshold_centi_c",
+                  "at": 47,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H6",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "label_len",
+                  "at": 49,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "label",
+                  "at": 50,
+                  "len": 5,
+                  "status": "hypothesis",
+                  "hypothesis": "H12",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "North"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 55,
+              "end": 75,
+              "category": "matched",
+              "messageId": "config_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 55,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 57,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 12
+                },
+                {
+                  "name": "seq",
+                  "at": 59,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "dir",
+                  "at": 61,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 62,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                },
+                {
+                  "name": "status",
+                  "at": 63,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "enabled",
+                  "at": 64,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H4",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "period_ms",
+                  "at": 65,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 200
+                },
+                {
+                  "name": "threshold_centi_c",
+                  "at": 67,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H6",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "label_len",
+                  "at": 69,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "label",
+                  "at": 70,
+                  "len": 5,
+                  "status": "hypothesis",
+                  "hypothesis": "H12",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "North"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 75,
+              "end": 99,
+              "category": "matched",
+              "messageId": "values_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 75,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 77,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                },
+                {
+                  "name": "seq",
+                  "at": 79,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "dir",
+                  "at": 81,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 82,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "status",
+                  "at": 83,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "count",
+                  "at": 84,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "measurements",
+                  "at": 85,
+                  "len": 14,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
+                  "at": 85,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1200
+                },
+                {
+                  "name": "measurements.0.temperature_centi_c",
+                  "at": 89,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "measurements.0.alarm",
+                  "at": 91,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.1.device_time_ms",
+                  "at": 92,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1400
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 96,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2500
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 98,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 99,
+              "end": 137,
+              "category": "matched",
+              "messageId": "values_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 99,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 101,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 30
+                },
+                {
+                  "name": "seq",
+                  "at": 103,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 6
+                },
+                {
+                  "name": "dir",
+                  "at": 105,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 106,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "status",
+                  "at": 107,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "count",
+                  "at": 108,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "measurements",
+                  "at": 109,
+                  "len": 28,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
+                  "at": 109,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1600
+                },
+                {
+                  "name": "measurements.0.temperature_centi_c",
+                  "at": 113,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -550
+                },
+                {
+                  "name": "measurements.0.alarm",
+                  "at": 115,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.1.device_time_ms",
+                  "at": 116,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1800
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 120,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 122,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.2.device_time_ms",
+                  "at": 123,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2000
+                },
+                {
+                  "name": "measurements.2.temperature_centi_c",
+                  "at": 127,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1900
+                },
+                {
+                  "name": "measurements.2.alarm",
+                  "at": 129,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.3.device_time_ms",
+                  "at": 130,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2200
+                },
+                {
+                  "name": "measurements.3.temperature_centi_c",
+                  "at": 134,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2100
+                },
+                {
+                  "name": "measurements.3.alarm",
+                  "at": 136,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 137,
+              "end": 157,
+              "category": "matched",
+              "messageId": "config_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 137,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 139,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 12
+                },
+                {
+                  "name": "seq",
+                  "at": 141,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 7
+                },
+                {
+                  "name": "dir",
+                  "at": 143,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 144,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                },
+                {
+                  "name": "status",
+                  "at": 145,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "enabled",
+                  "at": 146,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H4",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "period_ms",
+                  "at": 147,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 200
+                },
+                {
+                  "name": "threshold_centi_c",
+                  "at": 149,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H6",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "label_len",
+                  "at": 151,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "label",
+                  "at": 152,
+                  "len": 5,
+                  "status": "hypothesis",
+                  "hypothesis": "H12",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "North"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 157,
+              "end": 279,
+              "category": "matched",
+              "messageId": "values_resp",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "signature",
+                  "at": 157,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "bytes",
+                  "value": "a65c"
+                },
+                {
+                  "name": "length",
+                  "at": 159,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 114
+                },
+                {
+                  "name": "seq",
+                  "at": 161,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 8
+                },
+                {
+                  "name": "dir",
+                  "at": 163,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "cmd",
+                  "at": 164,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 48
+                },
+                {
+                  "name": "status",
+                  "at": 165,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "count",
+                  "at": 166,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 16
+                },
+                {
+                  "name": "measurements",
+                  "at": 167,
+                  "len": 112,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": null,
+                  "value": null
+                },
+                {
+                  "name": "measurements.0.device_time_ms",
+                  "at": 167,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2400
+                },
+                {
+                  "name": "measurements.0.temperature_centi_c",
+                  "at": 171,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3500
+                },
+                {
+                  "name": "measurements.0.alarm",
+                  "at": 173,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.1.device_time_ms",
+                  "at": 174,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2600
+                },
+                {
+                  "name": "measurements.1.temperature_centi_c",
+                  "at": 178,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -125
+                },
+                {
+                  "name": "measurements.1.alarm",
+                  "at": 180,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.2.device_time_ms",
+                  "at": 181,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2800
+                },
+                {
+                  "name": "measurements.2.temperature_centi_c",
+                  "at": 185,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 850
+                },
+                {
+                  "name": "measurements.2.alarm",
+                  "at": 187,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.3.device_time_ms",
+                  "at": 188,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3000
+                },
+                {
+                  "name": "measurements.3.temperature_centi_c",
+                  "at": 192,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2200
+                },
+                {
+                  "name": "measurements.3.alarm",
+                  "at": 194,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.4.device_time_ms",
+                  "at": 195,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3200
+                },
+                {
+                  "name": "measurements.4.temperature_centi_c",
+                  "at": 199,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1800
+                },
+                {
+                  "name": "measurements.4.alarm",
+                  "at": 201,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.5.device_time_ms",
+                  "at": 202,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3400
+                },
+                {
+                  "name": "measurements.5.temperature_centi_c",
+                  "at": 206,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1850
+                },
+                {
+                  "name": "measurements.5.alarm",
+                  "at": 208,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.6.device_time_ms",
+                  "at": 209,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3600
+                },
+                {
+                  "name": "measurements.6.temperature_centi_c",
+                  "at": 213,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2125
+                },
+                {
+                  "name": "measurements.6.alarm",
+                  "at": 215,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.7.device_time_ms",
+                  "at": 216,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3800
+                },
+                {
+                  "name": "measurements.7.temperature_centi_c",
+                  "at": 220,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2500
+                },
+                {
+                  "name": "measurements.7.alarm",
+                  "at": 222,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.8.device_time_ms",
+                  "at": 223,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4000
+                },
+                {
+                  "name": "measurements.8.temperature_centi_c",
+                  "at": 227,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -550
+                },
+                {
+                  "name": "measurements.8.alarm",
+                  "at": 229,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.9.device_time_ms",
+                  "at": 230,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4200
+                },
+                {
+                  "name": "measurements.9.temperature_centi_c",
+                  "at": 234,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.9.alarm",
+                  "at": 236,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.10.device_time_ms",
+                  "at": 237,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4400
+                },
+                {
+                  "name": "measurements.10.temperature_centi_c",
+                  "at": 241,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1900
+                },
+                {
+                  "name": "measurements.10.alarm",
+                  "at": 243,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.11.device_time_ms",
+                  "at": 244,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4600
+                },
+                {
+                  "name": "measurements.11.temperature_centi_c",
+                  "at": 248,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2100
+                },
+                {
+                  "name": "measurements.11.alarm",
+                  "at": 250,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.12.device_time_ms",
+                  "at": 251,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4800
+                },
+                {
+                  "name": "measurements.12.temperature_centi_c",
+                  "at": 255,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3500
+                },
+                {
+                  "name": "measurements.12.alarm",
+                  "at": 257,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "measurements.13.device_time_ms",
+                  "at": 258,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5000
+                },
+                {
+                  "name": "measurements.13.temperature_centi_c",
+                  "at": 262,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": -125
+                },
+                {
+                  "name": "measurements.13.alarm",
+                  "at": 264,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.14.device_time_ms",
+                  "at": 265,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5200
+                },
+                {
+                  "name": "measurements.14.temperature_centi_c",
+                  "at": 269,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 850
+                },
+                {
+                  "name": "measurements.14.alarm",
+                  "at": 271,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "measurements.15.device_time_ms",
+                  "at": 272,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5400
+                },
+                {
+                  "name": "measurements.15.temperature_centi_c",
+                  "at": 276,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2200
+                },
+                {
+                  "name": "measurements.15.alarm",
+                  "at": 278,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "seq — номер запроса от 1, ответ повторяет номер своего запроса",
+      "test": "seq == response.seq",
+      "test": "seq == response.seq",
+      "verdict": "untested",
+      "applicable": 0,
+      "held": 0,
+      "notApplicable": 14,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H3",
+      "statement": "cmd — команда: 0x10 чтение настроек, 0x20 изменение настроек, 0x30 чтение измерений; ответ повторяет команду",
+      "test": "cmd == response.cmd",
+      "test": "cmd == response.cmd",
+      "verdict": "untested",
+      "applicable": 0,
+      "held": 0,
+      "notApplicable": 14,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H4",
+      "statement": "enabled — 1 измерения включены, 0 выключены",
+      "test": "enabled == action.params.enabled",
+      "test": "enabled == action.params.enabled",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 12,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H5",
+      "statement": "period_ms — период измерений в миллисекундах, u16 старшим байтом вперёд",
+      "test": "period_ms == action.params.period_ms",
+      "test": "period_ms == action.params.period_ms",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 12,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H6",
+      "statement": "threshold_centi_c — температурный порог в сотых долях градуса Цельсия, знаковое 16 бит",
+      "test": "threshold_centi_c == dec(action.params.threshold_c, 2)",
+      "test": "threshold_centi_c == dec(action.params.threshold_c, 2)",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 12,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H7",
+      "statement": "label — метка устройства в UTF-8, длина в байтах в label_len",
+      "test": "label == action.params.label",
+      "test": "label == action.params.label",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 12,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H8",
+      "statement": "count — число запрошенных или переданных измерений",
+      "test": "count == action.params.count",
+      "test": "count == action.params.count",
+      "verdict": "no_counterexample",
+      "applicable": 7,
+      "held": 7,
+      "notApplicable": 7,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H9",
+      "statement": "status — 0 ок, 1 неподдерживаемая команда, 2 некорректное тело, 3 значение вне диапазона, 4 измерения отключены",
+      "test": "(status == 0) == (action.result.status == \"ok\")",
+      "test": "(status == 0) == (action.result.status == \"ok\")",
+      "verdict": "no_counterexample",
+      "applicable": 6,
+      "held": 6,
+      "notApplicable": 8,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H10",
+      "statement": "измерение — 7 байт: время устройства u32 мс, температура i16 в сотых °C, признак тревоги u8",
+      "test": "measurements.0.device_time_ms == action.result.measurements.0.device_time_ms && measurements.0.temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
+      "test": "measurements.0.device_time_ms == action.result.measurements.0.device_time_ms && measurements.0.temperature_centi_c == dec(action.result.measurements.0.temperature_c, 2)",
+      "verdict": "no_counterexample",
+      "applicable": 3,
+      "held": 3,
+      "notApplicable": 11,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H11",
+      "statement": "alarm — 1, если температура достигла порога или превысила его",
+      "test": "measurements.0.alarm == action.result.measurements.0.alarm",
+      "test": "measurements.0.alarm == action.result.measurements.0.alarm",
+      "verdict": "no_counterexample",
+      "applicable": 3,
+      "held": 3,
+      "notApplicable": 11,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H12",
+      "statement": "ответ с настройками передаёт текущую конфигурацию устройства",
+      "test": "enabled == action.result.configuration.enabled && period_ms == action.result.configuration.period_ms && threshold_centi_c == dec(action.result.configuration.threshold_c, 2) && label == action.result.configuration.label",
+      "test": "enabled == action.result.configuration.enabled && period_ms == action.result.configuration.period_ms && threshold_centi_c == dec(action.result.configuration.threshold_c, 2) && label == action.result.configuration.label",
+      "verdict": "no_counterexample",
+      "applicable": 4,
+      "held": 4,
+      "notApplicable": 10,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    }
+  ]
+}
