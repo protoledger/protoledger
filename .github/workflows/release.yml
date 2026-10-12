@@ -3,6 +3,8 @@ name: release
 on:
   push:
     tags: ["v*"]
+  # Пробная сборка без публикации: бинарники и проверки, без образа и релиза.
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -10,6 +12,7 @@ permissions:
 
 jobs:
   image:
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -66,13 +69,20 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # musl — статический бинарник: запускается на любом x86_64 Linux без Docker и библиотек.
           - os: ubuntu-latest
             target: linux-x86_64
+            rust: x86_64-unknown-linux-musl
           - os: windows-latest
             target: windows-x86_64
+            rust: x86_64-pc-windows-msvc
           - os: macos-latest
             target: macos-arm64
+            rust: aarch64-apple-darwin
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v5
         with:
@@ -82,29 +92,42 @@ jobs:
           name: ui-dist
           path: ui-dist
       - uses: dtolnay/rust-toolchain@stable
+      - name: Цель сборки
+        working-directory: backend
+        run: rustup target add ${{ matrix.rust }}
+      - name: musl
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends musl-tools
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: backend
+          key: ${{ matrix.rust }}
       - name: Сборка движка
         working-directory: backend
-        shell: bash
-        run: UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo build --release --locked
+        run: UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo build --release --locked -p protoledger --target ${{ matrix.rust }}
       - name: Архив
-        shell: bash
         run: |
           mkdir -p dist
           name="protoledger-${GITHUB_REF_NAME}-${{ matrix.target }}"
+          out="backend/target/${{ matrix.rust }}/release"
           if [ "${{ runner.os }}" = "Windows" ]; then
-            cp backend/target/release/protoledger.exe dist/ && (cd dist && 7z a "../$name.zip" protoledger.exe >/dev/null)
+            cp "$out/protoledger.exe" dist/ && (cd dist && 7z a "../$name.zip" protoledger.exe >/dev/null)
           else
-            cp backend/target/release/protoledger dist/ && tar -czf "$name.tar.gz" -C dist protoledger
+            cp "$out/protoledger" dist/ && tar -czf "$name.tar.gz" -C dist protoledger
           fi
+      - name: Статичность и эталоны без сети
+        if: runner.os == 'Linux'
+        run: |
+          file dist/protoledger | tee /dev/stderr | grep -q "static"
+          # busybox без glibc и без сети: бинарник должен работать сам по себе.
+          bash examples/check.sh docker run --rm --network none             -v "$PWD/examples:/examples:ro" -v "$PWD/dist:/b:ro" busybox:1.37 /b/protoledger
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
           path: protoledger-*
 
   publish:
+    if: startsWith(github.ref, 'refs/tags/')
     needs: [image, binaries]
     runs-on: ubuntu-latest
     steps:
