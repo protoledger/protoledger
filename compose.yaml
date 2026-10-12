@@ -6,4 +6,12 @@ services:
     user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
     volumes:
       - ./workspace:/data
+    # Записывает только в папку проектов: корень только для чтения, без привилегий.
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
