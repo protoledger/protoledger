@@ -1,0 +1,25 @@
+items:
+- id: obs-1
+  anchor:
+    source: 6e9019561d4ae13c0622dc2ba11e87edc27addfe4679b23f65a3d9a57e387f7a
+    stream: 6e901956:c0001:ab
+    start: 0
+    end: 2
+    sha256: 3a520ac789a36ece2562ea7e746f217dc442c11ad7766d3a86ff186bc522a153
+  comment: "Каждое сообщение начинается с A6 5C: сигнатура найдена подсказкой «Границы» на всех началах сообщений."
+- id: obs-2
+  anchor:
+    source: 6e9019561d4ae13c0622dc2ba11e87edc27addfe4679b23f65a3d9a57e387f7a
+    stream: 6e901956:c0001:ab
+    start: 2
+    end: 4
+    sha256: 96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7
+  comment: "u16, старший байт первым: длина тела. Размер сообщения = значение + 8 — кандидат поля длины без контрпримеров."
+- id: obs-3
+  anchor:
+    source: 6e9019561d4ae13c0622dc2ba11e87edc27addfe4679b23f65a3d9a57e387f7a
+    stream: 6e901956:c0001:ab
+    start: 19
+    end: 21
+    sha256: 2ba630e1d9545e4b6196b9d5ee2d7d7ed9cdc6b1e1bf3b44e7646ae0ff6ec0eb
+  comment: "Два байта запроса set-config меняются вместе с порогом из журнала действий: значение равно порогу в сотых долях °C."
