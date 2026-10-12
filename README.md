@@ -31,7 +31,7 @@ protoledger превращает записи обмена (PCAP/PCAPNG) и жу
 4. **Проверить** — применить описание к корпусу: сводка по всему набору, контрпримеры, сравнение с прошлой проверкой.
 5. **Передать** — отчёт с основаниями, машиночитаемое описание, папка проекта, команда повторного применения.
 
-Работает локально и офлайн: интерфейс в браузере на localhost и командная строка.
+Работает локально и офлайн: настольное приложение, интерфейс в браузере на localhost и командная строка.
 
 ## Быстрый старт
 
@@ -44,7 +44,31 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Интерфейс: http://localhost:8080. Описание API — `API.md` и `openapi.yaml` в [репозитории движка](https://github.com/protoledger/protoledger-backend); Swagger UI есть только в dev-сборке ([docs/dev.md](docs/dev.md)).
+Интерфейс: http://localhost:8080.
+
+### Без Docker: готовый бинарник
+
+На странице [Releases](https://github.com/protoledger/protoledger/releases) — архив `protoledger-<версия>-linux-x86_64.tar.gz`: статический бинарник, интерфейс встроен, библиотеки и сеть не нужны.
+
+```bash
+tar -xzf protoledger-*-linux-x86_64.tar.gz
+./protoledger serve --workspace ~/protoledger
+```
+
+Интерфейс: http://127.0.0.1:8080. Там же — сборки для Windows и macOS (`.zip`, `.tar.gz`) и `SHA256SUMS`.
+
+### Настольное приложение
+
+В Releases — установщики: Windows `.msi`, Linux `.deb` и AppImage. Приложение поднимает движок внутри себя и открывает интерфейс в своём окне; проекты по умолчанию — в папке «Документы/protoledger».
+
+- Windows: установщик не подписан — в окне SmartScreen «Подробнее» → «Выполнить в любом случае».
+- Linux: нужен WebKitGTK 4.1 (`sudo apt install libwebkit2gtk-4.1-0` в Debian и Ubuntu 22.04+); AppImage — `chmod +x protoledger_*.AppImage && ./protoledger_*.AppImage`.
+
+### Командная строка
+
+`protoledger apply` применяет описание протокола к новой записи без проекта, `verify` перепроверяет перенесённый проект, `report` собирает отчёт — подробнее в [docs/requirements.md](docs/requirements.md#как-повторить-проверку-руками).
+
+Описание API — `API.md` и `openapi.yaml` в [репозитории движка](https://github.com/protoledger/protoledger-backend); Swagger UI есть только в dev-сборке ([docs/dev.md](docs/dev.md)).
 
 ## Структура репозитория
 
