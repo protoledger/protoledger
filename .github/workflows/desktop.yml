@@ -1,6 +1,6 @@
 name: desktop
 
-# Сборка настольного приложения (ADR 0009): Windows .msi, Linux .deb и AppImage.
+# Сборка настольного приложения: Windows .msi, Linux .deb и AppImage.
 # Пока запускается вручную и на PR, меняющих сам workflow; артефакты — для проверки, не релиз.
 on:
   pull_request:

@@ -1,7 +1,7 @@
 name: dev-image
 
 # Образ ghcr.io/protoledger/protoledger:dev — движок с Swagger UI и режимом serve --dev для работы над
-# интерфейсом и для общего dev-сервера команды (ADR 0011, 0014). Не для жюри.
+# интерфейсом и для общего dev-сервера команды. Не для жюри.
 
 on:
   push:
