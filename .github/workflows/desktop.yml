@@ -91,6 +91,24 @@ jobs:
             args+=(--config "{\"version\":\"$v\"}")
           fi
           UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo tauri build "${args[@]}"
+      - name: AppImage запускается и поднимает движок
+        if: runner.os == 'Linux'
+        run: |
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends xvfb dbus-x11
+          app=$(ls backend/crates/protoledger-desktop/target/release/bundle/appimage/*.AppImage)
+          chmod +x "$app"
+          # Чистый домашний каталог без «Документов» — как на минимальном Linux.
+          export HOME="$(mktemp -d)"
+          APPIMAGE_EXTRACT_AND_RUN=1 xvfb-run -a dbus-run-session -- "$app" > app.log 2>&1 &
+          port_file="$HOME/protoledger/.protoledger-desktop.port"
+          for i in $(seq 1 60); do [ -s "$port_file" ] && break; sleep 1; done
+          [ -s "$port_file" ] || { echo "приложение не записало порт"; cat app.log; exit 1; }
+          port=$(cat "$port_file")
+          curl -fsS "http://127.0.0.1:$port/api/health"
+          echo
+          curl -fsS "http://127.0.0.1:$port/" | grep -q 'protoledger-token' || { echo "нет интерфейса"; exit 1; }
+          cat "$HOME/protoledger/protoledger.log"
+          pkill -f protoledger-desktop || true
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-${{ runner.os }}
