@@ -1,4 +1,6 @@
 // Собирает проект examples/thermostand/project заново через API движка — тем же путём, что интерфейс.
+// По пути проверяет шаги исследования: если движок перестал находить то, на чём оно строится
+// (границы, обмен по действию, связи с журналом, контрпримеры, подсказка типа), сборка падает.
 // Использование (из корня репозитория):  node examples/thermostand/build-project.mjs <путь к protoledger>
 import { spawn, execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -51,6 +53,10 @@ async function job(started) {
   }
 }
 
+const expect = (ok, what) => {
+  if (!ok) throw new Error(`проверка не прошла: ${what}`);
+};
+
 const importCapture = async (rel) =>
   (await job(await api("POST", "/sources", { path: path.join(sample, rel) }))).sourceSha256;
 
@@ -79,6 +85,39 @@ await api("POST", "/action-logs", {
   },
 });
 
+// Границы сообщений находятся по одним байтам, без описания.
+const source = shas["01_configuration.pcap"];
+const connection = (await api("GET", `/connections?source=${source}&limit=1`)).items[0];
+const stream = connection.streams[0].id;
+const requests = [];
+for (const name of research) {
+  const c = (await api("GET", `/connections?source=${shas[name]}&limit=1`)).items[0];
+  requests.push(c.streams[0].id);
+}
+const hints = await api("POST", "/analysis/framing", {
+  streams: connection.streams.map((x) => x.id),
+});
+const candidate = hints.length[0];
+expect(
+  candidate?.at === 2 && candidate.width === 2 && candidate.bigEndian && candidate.adjust === 8,
+  "границы: первый кандидат — длина u16 BE по смещению 2, поправка 8",
+);
+expect(candidate.scorePermille === 1000 && !candidate.firstCounterexample, "границы: без контрпримеров");
+expect(
+  hints.signatures.some((x) => x.bytes.startsWith("a65c")),
+  "границы: сигнатура A6 5C",
+);
+const columns = await api("POST", "/analysis/variability", { streams: requests, framing: candidate.framing });
+expect(columns.regions[0]?.kind === "constant" && columns.regions[0].bytes.startsWith("a65c"), "изменчивость: постоянное начало A6 5C");
+
+// Обмен по действию из журнала: запрос и ответ в окне времени действия.
+const logId = (await api("GET", "/action-logs")).items[0].id;
+const actions = (await api("GET", `/action-logs/${logId}/actions?limit=200`)).items;
+const withThreshold = actions.find((a) => a.params && "threshold_c" in a.params);
+expect(withThreshold, "журнал: есть действие с порогом");
+const exchange = await api("GET", `/action-logs/${logId}/actions/${withThreshold.line}/exchange`);
+expect(exchange.frames.length >= 2, "обмен по действию: найдены кадры запроса и ответа");
+
 // 2. Первое описание — с ошибкой исследователя: порог считается беззнаковым.
 const correct = fs.readFileSync(path.join(here, "interpretation.yaml"), "utf8");
 const mistaken = correct.replaceAll(
@@ -89,10 +128,29 @@ if (mistaken === correct) throw new Error("в описании не найден
 await api("PUT", "/interpretation", { yaml: mistaken });
 await job(await api("POST", "/runs", {}));
 
+// Ошибка ловится на данных: тест гипотезы опровергнут, подсказка называет верный тип.
+const firstRun = await api("GET", "/runs/run-0001");
+expect(
+  firstRun.hypotheses.find((h) => h.id === "H6")?.verdict === "refuted",
+  "run-0001: гипотеза H6 опровергнута",
+);
+expect(firstRun.summary.messages === 200, "run-0001: 200 сообщений");
+const typeHint = await api("POST", "/interpretation/field-hints", {
+  messageId: "set_config_req",
+  field: "threshold_centi_c",
+});
+expect(typeHint.suggested === "i16be", "подсказка типа: u16be → i16be");
+const links = await api("POST", "/analysis/correlations", { streams: requests, messageId: "set_config_req" });
+expect(
+  links.values.some((v) => v.param === "params.period_ms" && v.scale === 1),
+  "связи: период из журнала найден в байтах",
+);
+expect(
+  links.values.some((v) => v.param === "params.threshold_c" && v.scale === 100),
+  "связи: порог из журнала найден в байтах в сотых долях",
+);
+
 // 3. Наблюдения на байтах первой записи: адреса берутся из предпросмотра, а не вписаны руками.
-const source = shas["01_configuration.pcap"];
-const connection = (await api("GET", `/connections?source=${source}&limit=1`)).items[0];
-const stream = connection.streams[0].id;
 const preview = await api("POST", "/interpretation/preview", { stream, limit: 200 });
 const first = preview.items[0];
 const setConfig = preview.items.find((m) => m.messageId === "set_config_req");
@@ -127,6 +185,15 @@ await api("POST", "/questions", {
 // 5. Дополнительная запись: то же описание без ручной правки, прогон только по ней.
 shas.additional = await importCapture("additional/04_new_observations.pcapng");
 await job(await api("POST", "/runs", { corpus: { sources: [shas.additional] } }));
+const second = await api("GET", "/runs/run-0002");
+expect(
+  second.summary.messages === 16 && second.summary.counts.matched === 16,
+  "run-0002: новая запись разобрана без правки описания, 16 из 16",
+);
+expect(
+  second.hypotheses.find((h) => h.id === "H6")?.verdict === "refuted",
+  "run-0002: H6 опровергнута на новой записи",
+);
 
 // 6. Уточнение: порог знаковый. Новая ревизия, прогон по всему корпусу.
 await api("PUT", `/hypotheses/${unsigned.id}`, {
@@ -146,6 +213,18 @@ await api("PUT", `/questions/${question.id}`, {
 });
 await api("PUT", "/interpretation", { yaml: correct });
 await job(await api("POST", "/runs", {}));
+
+// Уточнение видно в сравнении прогонов, прежний прогон помечен устаревшим.
+const third = await api("GET", "/runs/run-0003");
+expect(third.summary.messages === 216 && third.summary.counterexamples === 0, "run-0003: 216 сообщений без контрпримеров");
+const diff = await api("GET", "/runs/diff?a=run-0001&b=run-0003");
+expect(
+  diff.hypotheses.some((h) => h.id === "H6" && h.kind === "fixed"),
+  "сравнение прогонов: H6 исправлена",
+);
+expect(diff.staleA === true && diff.staleB === false, "устаревание: run-0001 устарел, run-0003 актуален");
+const text = (await api("POST", "/reports", { format: "md" })).content;
+expect(text.includes("run-0003") && text.includes("Открытые вопросы"), "отчёт собран по последнему прогону");
 
 stop();
 await new Promise((r) => server.once("exit", r));
