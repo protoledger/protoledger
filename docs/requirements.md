@@ -1,6 +1,6 @@
 # Проверка требований
 
-Каждое обязательное требование задания — и чем оно подтверждено: автоматическим тестом, командой или шагом в интерфейсе. Тесты названы так, как в коде движка ([protoledger-backend](https://github.com/protoledger/protoledger-backend)), и выполняются в CI при каждом изменении (сейчас 287 тестов движка). Примеры данных — в [`examples/`](../examples/README.md): записи стенда, набор «Термостенд» от организаторов и злые записи.
+Каждое обязательное требование задания — и чем оно подтверждено: автоматическим тестом, командой или шагом в интерфейсе. Тесты названы так, как в коде движка ([protoledger-backend](https://github.com/protoledger/protoledger-backend)), и выполняются в CI при каждом изменении (сейчас 303 теста движка на Windows; на Linux к ним добавляются проверки символических ссылок и сверка с tshark). Примеры данных — в [`examples/`](../examples/README.md): записи стенда, набор «Термостенд» от организаторов и злые записи.
 
 Проверить всё, что проверяется командами, одним шагом:
 
@@ -52,7 +52,7 @@ bash examples/check.sh protoledger      # 14 эталонов: применен�
 | **N4.** Долгие операции: прогресс, отмена, уже полученное доступно | Импорт и прогон — задачи: состояние, поток событий, отмена; остальные запросы продолжают работать | `finished_job_streams_state_and_closes`, `delete_cancels_running_job`, `cancellation_and_progress` |
 | **N5.** Ошибки диагностируются, источник не меняется, неизвестное не подменяется | Ошибки — с понятным текстом и причиной; дыры не заполняются; неописанные байты считаются отдельно | `errors_are_problem_details`, `bad_rows_are_reported_not_hidden`, `seq_jump_becomes_a_gap_not_bytes` |
 | **N6.** Детерминизм | Стабильные сортировки, без времени выполнения в результатах; повторный запуск даёт тот же вывод | `runs_are_deterministic_and_roundtrip_through_json`, `apply_is_deterministic_and_writes_to_a_file`, `report_is_deterministic_and_goes_to_a_file` |
-| **N7.** Заявлены пределы, измерены время и память; превышение явно | Пределы — [limits.md](limits.md); превышение — ошибка с именем предела и значением. Замеры — `protoledger bench` | `file_size_limit`, `frame_limit`, `connection_limit_is_reported_as_problem`, `size_limit_is_enforced_without_leftovers`; официальные цифры на профиле 4 vCPU / 8 ГиБ — [limits.md](limits.md) |
+| **N7.** Заявлены пределы, измерены время и память; превышение явно | Пределы — [limits.md](limits.md); превышение — ошибка с именем предела и значением. Замеры — `protoledger bench` | `file_size_limit`, `frame_limit`, `connection_limit_is_reported_as_problem`, `size_limit_is_enforced_without_leftovers`; замер на Linux x86-64 с 4 vCPU (профиль разбирается за 0,24 с, пик памяти 161 МиБ) — [limits.md](limits.md) |
 
 ## Набор организаторов «Термостенд»
 
