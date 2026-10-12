@@ -104,7 +104,8 @@ jobs:
       - name: Смоук dev-режима
         if: steps.ready.outputs.ok == 'true'
         run: |
-          docker run -d --name dev -e PROTOLEDGER_DEV_TOKEN=ci-dev-token -p 8080:8080 app:dev
+          mkdir -p /tmp/dev-data && chmod 777 /tmp/dev-data
+          docker run -d --name dev -e PROTOLEDGER_DEV_TOKEN=ci-dev-token -p 8080:8080 -v /tmp/dev-data:/data app:dev
           for i in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:8080/api/health >/dev/null; then break; fi
             sleep 2
@@ -113,6 +114,17 @@ jobs:
           curl -fsS http://127.0.0.1:8080/api/docs/ >/dev/null
           code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/jobs)
           [ "$code" = "401" ] || { echo "без токена ожидался 401, получено $code"; docker logs dev; exit 1; }
+          # Примеры в образе импортируются по пути, как на общем dev-сервере.
+          api() { curl -fsS -H "X-Protoledger-Token: ci-dev-token" -H 'Content-Type: application/json' "$@"; }
+          api -X POST -d '{"path":"ci.protoledger","mode":"create"}' http://127.0.0.1:8080/api/project >/dev/null
+          job=$(api -X POST -d '{"path":"/examples/thermostand/sample_protocol/research/01_configuration.pcap"}'             http://127.0.0.1:8080/api/sources | grep -o '"jobId":"[^"]*"' | cut -d'"' -f4)
+          for i in $(seq 1 30); do
+            state=$(api "http://127.0.0.1:8080/api/jobs/$job" | grep -o '"state":"[a-z_]*"' | cut -d'"' -f4)
+            [ "$state" = "succeeded" ] && break
+            [ "$state" = "failed" ] && { api "http://127.0.0.1:8080/api/jobs/$job"; exit 1; }
+            sleep 1
+          done
+          [ "$state" = "succeeded" ] || { echo "импорт примера не завершился: $state"; exit 1; }
 
   ci:
     if: always()

@@ -15,6 +15,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && useradd --system --uid 10001 --create-home app
 COPY --from=engine /protoledger /usr/local/bin/protoledger
+# Примеры для импорта по пути (только чтение): /examples/thermostand/…, /examples/fixtures/synthetic/…
+COPY examples/ /examples/
+COPY backend/fixtures/ /examples/fixtures/
 USER app
 WORKDIR /data
 EXPOSE 8080
