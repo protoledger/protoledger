@@ -13,4 +13,4 @@ docker compose -f compose.dev.yaml up --build   # или готовый обра
 - Проекты лежат в `./workspace`; относительный путь проекта в API считается от этого каталога.
 - Данные для экранов: `backend/fixtures/synthetic` (дефекты захвата), `backend/fixtures/stand` (запись стенда с журналом действий), `backend/fixtures/hostile` (злые файлы).
 
-В образе для жюри (`docker compose up --build`) Swagger UI, `/api/docs` и режим `--dev` отсутствуют: код собирается без feature `dev-tools`, CI это проверяет.
+В релизном образе (`docker compose up --build`) Swagger UI, `/api/docs` и режим `--dev` отсутствуют: код собирается без feature `dev-tools`, CI это проверяет.
