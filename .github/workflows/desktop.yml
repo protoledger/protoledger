@@ -1,0 +1,92 @@
+name: desktop
+
+# Сборка настольного приложения (ADR 0009): Windows .msi, Linux .deb и AppImage.
+# Пока запускается вручную и на PR, меняющих сам workflow; артефакты — для проверки, не релиз.
+on:
+  pull_request:
+    paths: [.github/workflows/desktop.yml]
+  workflow_dispatch:
+    inputs:
+      backend_ref:
+        description: Ветка или коммит backend (пусто — указатель сабмодуля)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: frontend/package.json
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: frontend/.nvmrc
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - name: Сборка SPA
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile && pnpm generate
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-dist
+          path: frontend/.output/public
+          if-no-files-found: error
+
+  bundle:
+    needs: ui
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            bundles: msi
+          # 22.04 — самая старая поддерживаемая glibc: AppImage запустится на более новых дистрибутивах.
+          - os: ubuntu-22.04
+            bundles: deb,appimage
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - name: Backend из ветки
+        if: inputs.backend_ref != ''
+        env:
+          REF: ${{ inputs.backend_ref }}
+        run: git -C backend fetch --depth 1 origin "$REF" && git -C backend checkout --detach FETCH_HEAD
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-dist
+          path: ui-dist
+      - name: Системные библиотеки WebView
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+            libwebkit2gtk-4.1-dev libgtk-3-dev librsvg2-dev patchelf file
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: backend/crates/protoledger-desktop
+      - name: tauri-cli
+        run: cargo install tauri-cli --version 2.12.2 --locked
+      - name: Сборка установщиков
+        working-directory: backend/crates/protoledger-desktop
+        run: UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo tauri build --ci --bundles ${{ matrix.bundles }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ runner.os }}
+          path: |
+            backend/crates/protoledger-desktop/target/release/bundle/msi/*.msi
+            backend/crates/protoledger-desktop/target/release/bundle/deb/*.deb
+            backend/crates/protoledger-desktop/target/release/bundle/appimage/*.AppImage
+          if-no-files-found: error
