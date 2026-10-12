@@ -1,10 +1,11 @@
 name: desktop
 
 # Сборка настольного приложения: Windows .msi, Linux .deb и AppImage.
-# Пока запускается вручную и на PR, меняющих сам workflow; артефакты — для проверки, не релиз.
+# Вручную и на PR, меняющих сам workflow, — артефакты для проверки; из release — установщики в релиз.
 on:
   pull_request:
     paths: [.github/workflows/desktop.yml]
+  workflow_call:
   workflow_dispatch:
     inputs:
       backend_ref:
@@ -81,7 +82,15 @@ jobs:
         run: cargo install tauri-cli --version 2.12.2 --locked
       - name: Сборка установщиков
         working-directory: backend/crates/protoledger-desktop
-        run: UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo tauri build --ci --bundles ${{ matrix.bundles }}
+        run: |
+          args=(--ci --bundles ${{ matrix.bundles }})
+          # Версия установщика — из тега (v0.2 → 0.2.0): MSI принимает только три числа.
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            v="${GITHUB_REF_NAME#v}"
+            while [ "$(tr -cd . <<<"$v" | wc -c)" -lt 2 ]; do v="$v.0"; done
+            args+=(--config "{\"version\":\"$v\"}")
+          fi
+          UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo tauri build "${args[@]}"
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-${{ runner.os }}
