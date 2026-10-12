@@ -1,0 +1,166 @@
+# Modbus/TCP: описание, восстановленное по записи session.pcap и сверенное со спецификацией
+# Modbus Application Protocol 1.1b3 и Modbus Messaging on TCP/IP 1.0b.
+format: protoledger/interpretation@1
+scope:
+  direction: any
+  filter: "dst_port == 502 || src_port == 502"
+framing:
+  kind: length_prefixed
+  length: { at: 4, type: u16be, adjust: 6 }
+  status: rule
+messages:
+  - id: read_bits_req
+    description: "Чтение катушек (1) и дискретных входов (2)"
+    when: "dst_port == 502 && (function == 1 || function == 2)"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: bit_count, at: 10, type: u16be, status: hypothesis, hypothesis: H7 }
+  - id: read_registers_req
+    description: "Чтение регистров хранения (3) и входных регистров (4)"
+    when: "dst_port == 502 && (function == 3 || function == 4)"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: quantity, at: 10, type: u16be, status: hypothesis, hypothesis: H5 }
+  - id: write_coil
+    description: "Запись одной катушки (5); ответ повторяет запрос"
+    when: "function == 5"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: coil_value, at: 10, type: u16be, status: hypothesis, hypothesis: H9 }
+  - id: write_register
+    description: "Запись одного регистра (6); ответ повторяет запрос"
+    when: "function == 6"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: value, at: 10, type: u16be, status: hypothesis, hypothesis: H8 }
+  - id: write_coils_req
+    description: "Запись нескольких катушек (15)"
+    when: "dst_port == 502 && function == 15"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: bit_count, at: 10, type: u16be, status: hypothesis, hypothesis: H7 }
+      - { name: byte_count, at: 12, type: u8, status: hypothesis, hypothesis: H7 }
+      - { name: bits, at: 13, type: bytes, len: "byte_count", status: hypothesis, hypothesis: H7 }
+  - id: write_registers_req
+    description: "Запись нескольких регистров (16)"
+    when: "dst_port == 502 && function == 16"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: quantity, at: 10, type: u16be, status: hypothesis, hypothesis: H5 }
+      - { name: byte_count, at: 12, type: u8, status: hypothesis, hypothesis: H6 }
+      - name: registers
+        at: 13
+        type: bytes
+        status: hypothesis
+        hypothesis: H10
+        repeat:
+          count: "quantity"
+          fields:
+            - { name: value, at: 0, type: u16be, status: hypothesis, hypothesis: H10 }
+  - id: write_many_resp
+    description: "Подтверждение записи нескольких катушек или регистров"
+    when: "src_port == 502 && (function == 15 || function == 16)"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: address, at: 8, type: u16be, status: hypothesis, hypothesis: H12 }
+      - { name: quantity, at: 10, type: u16be, status: hypothesis, hypothesis: H12 }
+  - id: read_bits_resp
+    description: "Состояния катушек или входов, по биту на каждый"
+    when: "src_port == 502 && (function == 1 || function == 2)"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: byte_count, at: 8, type: u8, status: hypothesis, hypothesis: H7 }
+      - { name: bits, at: 9, type: bytes, len: "byte_count", status: hypothesis, hypothesis: H7 }
+  - id: read_registers_resp
+    description: "Значения регистров, по 2 байта на регистр"
+    when: "src_port == 502 && (function == 3 || function == 4)"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: byte_count, at: 8, type: u8, status: hypothesis, hypothesis: H6 }
+      - name: registers
+        at: 9
+        type: bytes
+        status: hypothesis
+        hypothesis: H10
+        repeat:
+          count: "byte_count / 2"
+          fields:
+            - { name: value, at: 0, type: u16be, status: hypothesis, hypothesis: H10 }
+  - id: exception_resp
+    description: "Отказ устройства: код функции со старшим битом и код причины"
+    when: "src_port == 502 && function >= 0x80"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: hypothesis, hypothesis: H3 }
+      - { name: exception_code, at: 8, type: u8, status: hypothesis, hypothesis: H11 }
+  - id: other
+    description: "Функция вне описанных: заголовок разобран, тело неизвестно"
+    fields:
+      - { name: transaction, at: 0, type: u16be, status: hypothesis, hypothesis: H1 }
+      - { name: protocol, at: 2, type: u16be, expect: 0, status: rule }
+      - { name: length, at: 4, type: u16be, status: rule, description: "число байт после поля длины" }
+      - { name: unit, at: 6, type: u8, status: hypothesis, hypothesis: H2 }
+      - { name: function, at: 7, type: u8, status: unknown }
+      - { name: body, at: 8, type: unknown, len: to_end }
+hypotheses:
+  - { id: H1, statement: "transaction — номер запроса; ответ повторяет номер своего запроса", test: "transaction == response.transaction" }
+  - { id: H2, statement: "unit — адрес устройства; ответ повторяет адрес из запроса", test: "unit == response.unit" }
+  - { id: H3, statement: "function — код функции; ответ повторяет код, при отказе — код со старшим битом", test: "function == response.function || function + 0x80 == response.function" }
+  - { id: H4, statement: "address — номер первого регистра или катушки, счёт от нуля", test: "address == action.params.address" }
+  - { id: H5, statement: "quantity — число регистров в запросе", test: "quantity == action.params.count" }
+  - { id: H6, statement: "ответ с регистрами несёт по 2 байта на каждый запрошенный регистр", test: "quantity * 2 == response.byte_count" }
+  - { id: H7, statement: "катушки и входы передаются битами: байт на каждые 8 штук, младший бит первым", test: "(bit_count + 7) / 8 == response.byte_count" }
+  - { id: H8, statement: "value — записываемое значение регистра, u16 старшим байтом вперёд", test: "value == action.params.value" }
+  - { id: H9, statement: "coil_value — 0xFF00 включить, 0x0000 выключить", test: "coil_value == action.params.on * 0xFF00" }
+  - { id: H10, statement: "регистры в ответе идут по порядку адресов, u16 старшим байтом вперёд", test: "registers.0.value == action.result.values.0" }
+  - { id: H11, statement: "exception_code — причина отказа: 1 неизвестная функция, 2 недопустимый адрес, 3 недопустимое значение", test: "exception_code == action.result.code" }
+  - { id: H12, statement: "подтверждение записи повторяет адрес и число из запроса", test: "address == response.address && quantity == response.quantity" }
+checks:
+  - { id: C1, kind: structural, expr: "length + 6 == message.len", description: "длина в заголовке не совпадает с размером сообщения" }
+  - { id: C2, kind: structural, expr: "byte_count + 3 == length", message: read_registers_resp, description: "число байт данных не сходится с длиной" }
+  - { id: C3, kind: structural, expr: "quantity * 2 == byte_count", message: write_registers_req, description: "число байт данных не равно удвоенному числу регистров" }
