@@ -10,3 +10,7 @@
 *.woff2 binary
 # Набор организаторов — байт в байт, без преобразования концов строк.
 examples/thermostand/sample_protocol/** -text
+# Злые образцы — байт в байт: CRLF, BOM и не-UTF-8 в них намеренные.
+examples/hostile/journals/** -text
+examples/hostile/interpretations/** -text
+examples/hostile/projects/** -text
