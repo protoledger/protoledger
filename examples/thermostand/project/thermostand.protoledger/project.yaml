@@ -1,0 +1,93 @@
+formatVersion: 1
+engineVersion: "0.1.0"
+name: thermostand
+settings:
+  overlapPolicy: first
+  checksumPolicy: warn
+imports:
+- id: imp-0001
+  sha256: 6e9019561d4ae13c0622dc2ba11e87edc27addfe4679b23f65a3d9a57e387f7a
+  name: 01_configuration.pcap
+  format: pcap
+  sizeBytes: 12207
+- id: imp-0002
+  sha256: ce1b47e6e471b9e65369197b252ee787ae87107adaf1de02980f6f7db70bd4c5
+  name: 02_variations.pcapng
+  format: pcapng
+  sizeBytes: 14168
+- id: imp-0003
+  sha256: 3590b1111504efa74e5fc841c85ecbd93221653e2d09a0b206c91942b7940407
+  name: 03_combined_messages.pcap
+  format: pcap
+  sizeBytes: 4167
+- id: imp-0004
+  sha256: f4db652ada2a19dbbd45fc19a4b7b40d4fd04dc533653bd3988926a7f15e8085
+  name: 01_retransmission.pcap
+  format: pcap
+  sizeBytes: 4272
+- id: imp-0005
+  sha256: d039dd254f96c8942d0560bf81f14398b6327279112587a87ec44b88d2a156e8
+  name: 02_reordered.pcapng
+  format: pcapng
+  sizeBytes: 5068
+- id: imp-0006
+  sha256: 264e1503f162fe2979154829016a122a3a01b55fee56cdef045539c5420bd160
+  name: 03_missing_segment.pcap
+  format: pcap
+  sizeBytes: 4062
+- id: imp-0007
+  sha256: de6b57e1e3d1c086aa84bbff62ceb462d4efbcdc13f1cf61c1ac97e765f952b9
+  name: 04_snaplen_truncated.pcapng
+  format: pcapng
+  sizeBytes: 5036
+- id: imp-0008
+  sha256: abee9bbd87963c263eace6fb948f655590096296eaf1cf2264f04a0a93440ac9
+  name: 05_conflicting_overlap.pcap
+  format: pcap
+  sizeBytes: 4272
+- id: imp-0009
+  sha256: 850aab35d90d265e12cc29a41062da11a6c594d7b0f85240921316c2f7012806
+  name: 06_missing_beginning.pcapng
+  format: pcapng
+  sizeBytes: 4424
+- id: imp-0010
+  sha256: b2c665d464ef2d539b740cb42c53051743d16b95efc309c4942c61daaa849692
+  name: 07_checksum_offload.pcap
+  format: pcap
+  sizeBytes: 4167
+- id: imp-0011
+  sha256: 53c2ad8535e1bd3853129c10ec4d6277da2152199c10039d5e2ca3aa9316a1b9
+  name: 08_bad_checksum.pcapng
+  format: pcapng
+  sizeBytes: 5068
+- id: imp-0012
+  sha256: a7ad6db37afc64d5516607efa16e33448ec93f460ec1a0c19db5b067593eccf0
+  name: 04_new_observations.pcapng
+  format: pcapng
+  sizeBytes: 7440
+interpretations:
+- rev: 1
+  digest: 1f4b613e80bd932f608a85e4a03be942949783986978809bbc832f6a6a4c07d8
+- rev: 2
+  digest: 671ad13afc4371bb6c721ebf963e12baeda59be84880126a120b0514e4023999
+runs:
+- id: run-0001
+- id: run-0002
+- id: run-0003
+actionLogs:
+- id: log-0001
+  sha256: 0312fe0c675aee8eaa7b279c0c6d0b48981bfdebc6a4e3551db54b03ef4db897
+  name: action_journal.csv
+  mapping:
+    time: start_utc
+    action: action
+    params: parameters
+    result: observed_result
+    timeFormat: rfc3339
+    paramsFormat: json
+    resultFormat: json
+    delimiter: null
+    utcOffsetMinutes: 0
+    clockOffsetMs: 0
+    source: capture
+  rows: 109

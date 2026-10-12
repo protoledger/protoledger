@@ -77,6 +77,20 @@ jobs:
       - name: Эталоны examples/ (apply совпадает с expected)
         if: steps.ready.outputs.ok == 'true'
         run: bash examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci
+      - name: Проект примера воспроизводится (verify) и даёт тот же отчёт
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          run() { docker run --rm -v "$PWD/examples:/examples:ro" app:ci "$@"; }
+          run verify /examples/thermostand/project/thermostand.protoledger
+          run report /examples/thermostand/project/thermostand.protoledger --format md > /tmp/report.md
+          diff /tmp/report.md examples/thermostand/project/report.md
+      - name: Проект примера собирается заново через API и совпадает с закоммиченным
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          node examples/thermostand/build-project.mjs /tmp/protoledger
+          git status --short examples/thermostand/project
+          git diff --exit-code -- examples/thermostand/project
+          test -z "$(git status --short examples/thermostand/project)"
       - name: Замеры в профиле 4 vCPU / 8 ГиБ
         if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
         run: bash bench/run.sh app:ci

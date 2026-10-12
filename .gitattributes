@@ -10,6 +10,8 @@
 *.woff2 binary
 # Набор организаторов — байт в байт, без преобразования концов строк.
 examples/thermostand/sample_protocol/** -text
+# Проект примера — байт в байт: копии записей и журнала сверяются по sha256.
+examples/thermostand/project/** -text
 # Злые образцы — байт в байт: CRLF, BOM и не-UTF-8 в них намеренные.
 examples/hostile/journals/** -text
 examples/hostile/interpretations/** -text
