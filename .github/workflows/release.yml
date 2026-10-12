@@ -108,7 +108,7 @@ jobs:
       - name: Архив
         run: |
           mkdir -p dist
-          name="protoledger-${GITHUB_REF_NAME}-${{ matrix.target }}"
+          name="protoledger-${GITHUB_REF_NAME//\//-}-${{ matrix.target }}"
           out="backend/target/${{ matrix.rust }}/release"
           if [ "${{ runner.os }}" = "Windows" ]; then
             cp "$out/protoledger.exe" dist/ && (cd dist && 7z a "../$name.zip" protoledger.exe >/dev/null)
