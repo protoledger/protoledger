@@ -24,6 +24,8 @@
 !/examples/**
 !/bench/**
 !/packaging/**
+# Папка проектов для compose: в git только она сама, чтобы владельцем был пользователь, а не root
+!/workspace/.gitkeep
 
 # Секреты — никогда
 .env

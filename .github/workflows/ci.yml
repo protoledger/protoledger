@@ -51,8 +51,9 @@ jobs:
         if: steps.ready.outputs.ok == 'true'
         run: |
           # Те же ограничения, что в compose.yaml: корень только для чтения, без привилегий.
-          mkdir -p /tmp/pl-data && chmod 777 /tmp/pl-data
-          docker run -d --name app -p 127.0.0.1:8080:8080 -v /tmp/pl-data:/data             --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges:true app:ci
+          # Папка проектов — как у пользователя после клона: ./workspace из репо, контейнер от его uid.
+          docker run -d --name app -p 127.0.0.1:8080:8080 -v "$PWD/workspace:/data" --user "$(id -u):$(id -g)" \
+            --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges:true app:ci
           for i in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:8080/api/health; then break; fi
             [ "$i" = 30 ] && { docker logs app; exit 1; }
@@ -60,8 +61,10 @@ jobs:
           done
           # Запись проекта в смонтированную папку работает и при read-only корне.
           token=$(curl -fsS http://127.0.0.1:8080/ | grep -o 'protoledger-token" content="[^"]*' | cut -d'"' -f3)
-          curl -fsS -X POST http://127.0.0.1:8080/api/project -H "X-Protoledger-Token: $token"             -H 'Content-Type: application/json' -d '{"path":"smoke.protoledger","mode":"create"}' >/dev/null             || { docker logs app; exit 1; }
-          test -d /tmp/pl-data/smoke.protoledger
+          curl -fsS -X POST http://127.0.0.1:8080/api/project -H "X-Protoledger-Token: $token" \
+            -H 'Content-Type: application/json' -d '{"path":"smoke.protoledger","mode":"create"}' >/dev/null \
+            || { docker logs app; exit 1; }
+          test -d workspace/smoke.protoledger
       - name: В релизной сборке нет инструментов разработки
         if: steps.ready.outputs.ok == 'true'
         run: |
