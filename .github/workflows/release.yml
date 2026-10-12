@@ -36,18 +36,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
 
-  binaries:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            target: linux-x86_64
-          - os: windows-latest
-            target: windows-x86_64
-          - os: macos-latest
-            target: macos-arm64
-    runs-on: ${{ matrix.os }}
+  # SPA собирается один раз на Linux: nuxt generate под Windows падает на пререндере.
+  ui:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
@@ -63,6 +54,33 @@ jobs:
       - name: Сборка SPA
         working-directory: frontend
         run: pnpm install --frozen-lockfile && pnpm generate
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-dist
+          path: frontend/.output/public
+          if-no-files-found: error
+
+  binaries:
+    needs: ui
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x86_64
+          - os: windows-latest
+            target: windows-x86_64
+          - os: macos-latest
+            target: macos-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-dist
+          path: ui-dist
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
@@ -70,7 +88,7 @@ jobs:
       - name: Сборка движка
         working-directory: backend
         shell: bash
-        run: UI_DIST="$GITHUB_WORKSPACE/frontend/.output/public" cargo build --release --locked
+        run: UI_DIST="$GITHUB_WORKSPACE/ui-dist" cargo build --release --locked
       - name: Архив
         shell: bash
         run: |
@@ -93,6 +111,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
+          # Только бинарники: артефакт ui-dist в релиз не попадает.
+          pattern: "*-*64"
           merge-multiple: true
       - name: Релиз
         env:
