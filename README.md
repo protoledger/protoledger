@@ -53,7 +53,7 @@ docker compose up --build
 | `backend/` | движок на Rust: чтение записей, сборка TCP, интерпретация, проверка, API, CLI ([protoledger-backend](https://github.com/protoledger/protoledger-backend)) |
 | `frontend/` | интерфейс на Nuxt ([protoledger-frontend](https://github.com/protoledger/protoledger-frontend)) |
 | `examples/` | примеры входных данных и ожидаемые результаты |
-| `docs/` | архитектура, форматы, ограничения, замеры |
+| `docs/` | [архитектура](docs/architecture.md), [форматы](docs/formats.md), [проверка требований](docs/requirements.md), [безопасность](docs/security.md), [ограничения и замеры](docs/limits.md) |
 | `bench/` | замеры времени и памяти |
 | `Dockerfile`, `compose.yaml` | сборка и запуск |
 

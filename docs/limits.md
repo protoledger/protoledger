@@ -34,3 +34,12 @@ Ethernet (до двух VLAN-меток), IPv4, TCP. IPv6, фрагменты IP
 ## Замеры
 
 Профиль проверки — 100 МиБ, 250 тыс. пакетов, 1000 соединений на 4 vCPU / 8 ГиБ. Официальные замеры на этом профиле ещё не проводились.
+
+Как измерить (из каталога `backend/`; запись профиля создаётся детерминированно, за секунды):
+
+```bash
+cargo run -p pl-synth --release -- profile --out bench-data/profile.pcapng
+protoledger bench bench-data --interpretation fixtures/synthetic/interpretation.yaml --repeat 3
+```
+
+Команда печатает время чтения файла, индексации кадров, сборки потоков и применения описания, скорость разбора и пик памяти процесса (на Linux).

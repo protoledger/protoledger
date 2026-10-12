@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
-# Dev-сборка движка для разработки фронтенда: с Swagger UI и режимом serve --dev (ADR 0011).
+# Dev-сборка движка для разработки фронтенда: с Swagger UI и режимом serve --dev.
 # Интерфейс не встраивается: фронтенд запускают отдельно (pnpm dev), движок — отсюда.
-# Не для жюри: образ для жюри собирает Dockerfile без feature dev-tools.
+# Не для поставки: релизный образ собирает Dockerfile без feature dev-tools.
 
 FROM rust:1-trixie AS engine
 WORKDIR /src
