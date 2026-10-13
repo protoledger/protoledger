@@ -62,14 +62,34 @@ protoledger apply --interpretation examples/thermostand/interpretation.yaml \
 
 ```bash
 S=examples/thermostand/sample_protocol
-protoledger draft   --input $S/research/01_configuration.pcap --input $S/research/02_variations.pcapng   --input $S/research/03_combined_messages.pcap   --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml   --out draft.yaml
+protoledger draft \
+  --input $S/research/01_configuration.pcap --input $S/research/02_variations.pcapng \
+  --input $S/research/03_combined_messages.pcap \
+  --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml \
+  --out draft.yaml
 
-protoledger apply --interpretation draft.yaml   --input $S/additional/04_new_observations.pcapng   --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml --strict
+protoledger apply --interpretation draft.yaml \
+  --input $S/additional/04_new_observations.pcapng \
+  --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml --strict
 ```
 
 По трём записям исследования черновик находит длину и сигнатуру, номер запроса, байт направления и команду, восемь типов сообщений (шесть основных и запрос с ответом неизвестной команды), `enabled`, `period_ms`, знаковый порог в сотых долях, метку-строку, число измерений и поля первых измерений. Дополнительную запись, которой при сборке не было, он разбирает целиком — 16 сообщений из 16, все 20 тестов гипотез без контрпримеров. CI повторяет обе команды при каждом изменении.
 
 Это черновик, а не замена исследователю: каждое поле в нём — гипотеза с основанием, имена типов условные (`msg_00_20`), ответ с ошибкой и повторяющаяся группа измерений не выделены. Сравните с `interpretation.yaml`.
+
+## То же описание в Wireshark
+
+`thermostand.lua` — диссектор Wireshark, выгруженный из `interpretation.yaml`: те же границы сообщений, типы и поля, включая измерения повторяющейся группы. Порт 46123 взят из области описания, поэтому протокол распознаётся сам.
+
+```bash
+tshark -X lua_script:examples/thermostand/thermostand.lua \
+  -r examples/thermostand/sample_protocol/additional/04_new_observations.pcapng -Y thermostand
+protoledger export --interpretation examples/thermostand/interpretation.yaml --name thermostand   # выгрузить заново
+```
+
+В Wireshark файл кладётся в папку личных плагинов Lua; поля доступны в фильтрах как `thermostand.<сообщение>.<поле>`, например `thermostand.set_config_req.threshold_centi_c < 0`. Диссектор показывает разбор, но не проверяет его: гипотезы, их тесты и контрпримеры остаются в проекте.
+
+CI выгружает диссектор заново и сверяет с файлом, а затем сравнивает tshark с `apply` на четырёх записях: типы сообщений, порог в запросах, температуры измерений (`wireshark-check.sh`).
 
 ## Готовый проект
 

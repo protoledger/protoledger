@@ -77,6 +77,12 @@ jobs:
       - name: Эталоны examples/ (apply совпадает с expected)
         if: steps.ready.outputs.ok == 'true'
         run: bash examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci
+      - name: Диссектор Wireshark примера совпадает с выгрузкой и с apply (tshark)
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends tshark
+          bash examples/thermostand/wireshark-check.sh /tmp/protoledger
       - name: Проект примера воспроизводится (verify) и даёт тот же отчёт
         if: steps.ready.outputs.ok == 'true'
         run: |
