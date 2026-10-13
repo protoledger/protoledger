@@ -31,9 +31,9 @@
 </table>
 <p>Диагностика захвата (кадры, которые не вошли в потоки или разобраны с оговорками):</p>
 <ul>
-<li>04_snaplen_truncated.pcapng: truncated_frame — 1 кадров</li>
-<li>07_checksum_offload.pcap: checksum_offload — 14 кадров</li>
-<li>08_bad_checksum.pcapng: bad_checksum — 1 кадров</li>
+<li>04_snaplen_truncated.pcapng: Кадр усечён при записи — 1 (truncated_frame)</li>
+<li>07_checksum_offload.pcap: Частичная сумма (checksum offload) — 14 (checksum_offload)</li>
+<li>08_bad_checksum.pcapng: Неверная контрольная сумма — 1 (bad_checksum)</li>
 </ul>
 <p>Журналы действий:</p>
 <ul>
@@ -55,7 +55,7 @@
 <table>
 <thead><tr><th>Тип сообщения</th><th>Распределение</th></tr></thead>
 <tbody>
-<tr><td>?</td><td>неоднозначно: 1, неполно (дыра или обрыв): 4</td></tr>
+<tr><td>тип не определён</td><td>неоднозначно: 1, неполно (дыра или обрыв): 4</td></tr>
 <tr><td>config_resp</td><td>совпало: 55</td></tr>
 <tr><td>error_resp</td><td>совпало: 4</td></tr>
 <tr><td>read_config_req</td><td>совпало: 37</td></tr>

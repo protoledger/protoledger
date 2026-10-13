@@ -23,9 +23,9 @@
 
 Диагностика захвата (кадры, которые не вошли в потоки или разобраны с оговорками):
 
-- 04\_snaplen\_truncated.pcapng: truncated\_frame — 1 кадров
-- 07\_checksum\_offload.pcap: checksum\_offload — 14 кадров
-- 08\_bad\_checksum.pcapng: bad\_checksum — 1 кадров
+- 04\_snaplen\_truncated.pcapng: Кадр усечён при записи — 1 (truncated\_frame)
+- 07\_checksum\_offload.pcap: Частичная сумма (checksum offload) — 14 (checksum\_offload)
+- 08\_bad\_checksum.pcapng: Неверная контрольная сумма — 1 (bad\_checksum)
 
 Журналы действий:
 
@@ -49,7 +49,7 @@
 
 | Тип сообщения | Распределение |
 |---|---|
-| ? | неоднозначно: 1, неполно (дыра или обрыв): 4 |
+| тип не определён | неоднозначно: 1, неполно (дыра или обрыв): 4 |
 | config\_resp | совпало: 55 |
 | error\_resp | совпало: 4 |
 | read\_config\_req | совпало: 37 |
