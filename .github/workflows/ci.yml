@@ -91,12 +91,13 @@ jobs:
           git status --short examples/thermostand/project
           git diff --exit-code -- examples/thermostand/project
           test -z "$(git status --short examples/thermostand/project)"
-      - name: Запись примера modbus воспроизводится генератором
+      - name: Записи примеров modbus и mqtt воспроизводятся генераторами
         if: steps.ready.outputs.ok == 'true'
         run: |
           node examples/modbus/generate.mjs
-          git diff --exit-code -- examples/modbus
-          test -z "$(git status --short examples/modbus)"
+          node examples/mqtt/generate.mjs
+          git diff --exit-code -- examples/modbus examples/mqtt
+          test -z "$(git status --short examples/modbus examples/mqtt)"
       - name: Замеры в профиле 4 vCPU / 8 ГиБ
         if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
         run: bash bench/run.sh app:ci
