@@ -56,6 +56,21 @@ protoledger apply --interpretation examples/thermostand/interpretation.yaml \
 
 Журнал описывает все записи набора: колонка `capture` в `mapping.yaml` (`source`) привязывает действие к своей записи, параметры и результат — JSON внутри ячейки.
 
+## Черновик описания одной командой
+
+Описание в `interpretation.yaml` написано исследователем. Движок умеет собрать отправную точку сам — из подсказок по границам, типам сообщений, полям и связям с журналом действий:
+
+```bash
+S=examples/thermostand/sample_protocol
+protoledger draft   --input $S/research/01_configuration.pcap --input $S/research/02_variations.pcapng   --input $S/research/03_combined_messages.pcap   --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml   --out draft.yaml
+
+protoledger apply --interpretation draft.yaml   --input $S/additional/04_new_observations.pcapng   --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml --strict
+```
+
+По трём записям исследования черновик находит длину и сигнатуру, номер запроса, байт направления и команду, восемь типов сообщений (шесть основных и запрос с ответом неизвестной команды), `enabled`, `period_ms`, знаковый порог в сотых долях, метку-строку, число измерений и поля первых измерений. Дополнительную запись, которой при сборке не было, он разбирает целиком — 16 сообщений из 16, все 20 тестов гипотез без контрпримеров. CI повторяет обе команды при каждом изменении.
+
+Это черновик, а не замена исследователю: каждое поле в нём — гипотеза с основанием, имена типов условные (`msg_00_20`), ответ с ошибкой и повторяющаяся группа измерений не выделены. Сравните с `interpretation.yaml`.
+
 ## Готовый проект
 
 `project/thermostand.protoledger` — папка проекта с этим исследованием, собранная движком: 12 записей (копии под именами своих sha256), журнал действий, обе ревизии описания, три прогона, наблюдения, гипотезы и вопросы исследователя. Её можно скопировать на другую машину и открыть в интерфейсе или проверить командой.

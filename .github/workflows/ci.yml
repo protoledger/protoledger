@@ -91,6 +91,20 @@ jobs:
           git status --short examples/thermostand/project
           git diff --exit-code -- examples/thermostand/project
           test -z "$(git status --short examples/thermostand/project)"
+      - name: Черновик описания по записям исследования разбирает дополнительную запись
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          S=examples/thermostand/sample_protocol
+          /tmp/protoledger draft \
+            --input $S/research/01_configuration.pcap --input $S/research/02_variations.pcapng \
+            --input $S/research/03_combined_messages.pcap \
+            --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml \
+            --out /tmp/draft.yaml
+          /tmp/protoledger apply --interpretation /tmp/draft.yaml \
+            --input $S/additional/04_new_observations.pcapng \
+            --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml \
+            --strict > /tmp/draft-apply.json
+          jq -e '.summary.messages == 16 and ([.hypotheses[] | select(.verdict == "refuted")] | length) == 0 and (.hypotheses | length) >= 15' /tmp/draft-apply.json
       - name: Записи примеров modbus и mqtt воспроизводятся генераторами
         if: steps.ready.outputs.ok == 'true'
         run: |
