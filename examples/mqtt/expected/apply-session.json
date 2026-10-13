@@ -1,0 +1,1629 @@
+{
+  "format": "protoledger/apply-result@1",
+  "engineVersion": "0.1.0",
+  "interpretationDigest": "a8c7cba5c7d5e0f207c227b7fa380ae43eba82a1a27497aac14f27914e949622",
+  "policy": {
+    "overlap": "first",
+    "checksum": "warn"
+  },
+  "summary": {
+    "inputs": 1,
+    "streams": 2,
+    "outOfScopeStreams": 0,
+    "messages": 25,
+    "unknownBytes": 2,
+    "counts": {
+      "matched": 25
+    }
+  },
+  "inputs": [
+    {
+      "name": "session.pcap",
+      "sha256": "9d485312ae574b9788339942083d0f3542558b2c3af6627cfaa6658223aae29d",
+      "format": "pcap",
+      "frames": 42,
+      "connections": 1,
+      "diagnostics": [],
+      "streams": [
+        {
+          "id": "9d485312:c0001:ab",
+          "outOfScope": false,
+          "counts": {
+            "matched": 15
+          },
+          "unknownBytes": 1,
+          "messages": [
+            {
+              "start": 0,
+              "end": 23,
+              "category": "matched",
+              "messageId": "connect",
+              "unknownBytes": 1,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 0,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "remaining",
+                  "at": 1,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 21
+                },
+                {
+                  "name": "protocol_len",
+                  "at": 2,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "protocol",
+                  "at": 4,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "MQTT"
+                },
+                {
+                  "name": "level",
+                  "at": 8,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H3",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "connect_flags",
+                  "at": 9,
+                  "len": 1,
+                  "status": "unknown",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "keepalive",
+                  "at": 10,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H4",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 60
+                },
+                {
+                  "name": "client_len",
+                  "at": 12,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 9
+                },
+                {
+                  "name": "client_id",
+                  "at": 14,
+                  "len": 9,
+                  "status": "hypothesis",
+                  "hypothesis": "H5",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "sensor-17"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 23,
+              "end": 48,
+              "category": "matched",
+              "messageId": "subscribe",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 23,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 8
+                },
+                {
+                  "name": "remaining",
+                  "at": 24,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 23
+                },
+                {
+                  "name": "packet_id",
+                  "at": 25,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "filter_len",
+                  "at": 27,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 18
+                },
+                {
+                  "name": "filter",
+                  "at": 29,
+                  "len": 18,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/cmd/#"
+                },
+                {
+                  "name": "requested_qos",
+                  "at": 47,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 48,
+              "end": 74,
+              "category": "matched",
+              "messageId": "subscribe",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 48,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 8
+                },
+                {
+                  "name": "remaining",
+                  "at": 49,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 24
+                },
+                {
+                  "name": "packet_id",
+                  "at": 50,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "filter_len",
+                  "at": 52,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 19
+                },
+                {
+                  "name": "filter",
+                  "at": 54,
+                  "len": 19,
+                  "status": "hypothesis",
+                  "hypothesis": "H10",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/config"
+                },
+                {
+                  "name": "requested_qos",
+                  "at": 73,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 74,
+              "end": 106,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 74,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 74,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 75,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 30
+                },
+                {
+                  "name": "topic_len",
+                  "at": 76,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 24
+                },
+                {
+                  "name": "topic",
+                  "at": 78,
+                  "len": 24,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/temperature"
+                },
+                {
+                  "name": "payload",
+                  "at": 102,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "21.5"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 106,
+              "end": 135,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 106,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 106,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 107,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 27
+                },
+                {
+                  "name": "topic_len",
+                  "at": 108,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 21
+                },
+                {
+                  "name": "topic",
+                  "at": 110,
+                  "len": 21,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/pressure"
+                },
+                {
+                  "name": "payload",
+                  "at": 131,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "4.82"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 135,
+              "end": 167,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 135,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 135,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 136,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 30
+                },
+                {
+                  "name": "topic_len",
+                  "at": 137,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 24
+                },
+                {
+                  "name": "topic",
+                  "at": 139,
+                  "len": 24,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/temperature"
+                },
+                {
+                  "name": "payload",
+                  "at": 163,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "21.7"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 167,
+              "end": 192,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 167,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 167,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 168,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 23
+                },
+                {
+                  "name": "topic_len",
+                  "at": 169,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 18
+                },
+                {
+                  "name": "topic",
+                  "at": 171,
+                  "len": 18,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/state"
+                },
+                {
+                  "name": "payload",
+                  "at": 189,
+                  "len": 3,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "RUN"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 192,
+              "end": 224,
+              "category": "matched",
+              "messageId": "publish_acked",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 192,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 192,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "remaining",
+                  "at": 193,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 30
+                },
+                {
+                  "name": "topic_len",
+                  "at": 194,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 18
+                },
+                {
+                  "name": "topic",
+                  "at": 196,
+                  "len": 18,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/alarm"
+                },
+                {
+                  "name": "packet_id",
+                  "at": 214,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "payload",
+                  "at": 216,
+                  "len": 8,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "overheat"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 224,
+              "end": 255,
+              "category": "matched",
+              "messageId": "publish_acked",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 224,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 224,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "remaining",
+                  "at": 225,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 29
+                },
+                {
+                  "name": "topic_len",
+                  "at": 226,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 18
+                },
+                {
+                  "name": "topic",
+                  "at": 228,
+                  "len": 18,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/alarm"
+                },
+                {
+                  "name": "packet_id",
+                  "at": 246,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "payload",
+                  "at": 248,
+                  "len": 7,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "cleared"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 255,
+              "end": 285,
+              "category": "matched",
+              "messageId": "publish_acked",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 255,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 255,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "remaining",
+                  "at": 256,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 28
+                },
+                {
+                  "name": "topic_len",
+                  "at": 257,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 20
+                },
+                {
+                  "name": "topic",
+                  "at": 259,
+                  "len": 20,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/counter"
+                },
+                {
+                  "name": "packet_id",
+                  "at": 279,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                },
+                {
+                  "name": "payload",
+                  "at": 281,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "1024"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 285,
+              "end": 573,
+              "category": "matched",
+              "messageId": "publish_acked",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 285,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 285,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "remaining",
+                  "at": 286,
+                  "len": 2,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 285
+                },
+                {
+                  "name": "topic_len",
+                  "at": 288,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 19
+                },
+                {
+                  "name": "topic",
+                  "at": 290,
+                  "len": 19,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/report"
+                },
+                {
+                  "name": "packet_id",
+                  "at": 309,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 6
+                },
+                {
+                  "name": "payload",
+                  "at": 311,
+                  "len": 262,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "{\"line\":2,\"firmware\":\"2.4.1\",\"sensors\":[\"temperature\",\"pressure\",\"state\",\"counter\"],\"thresholds\":{\"temperature\":85,\"pressure\":6.5},\"note\":\"ежесменный отчёт: все датчики на связи, превышений порогов не было\"}"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 573,
+              "end": 575,
+              "category": "matched",
+              "messageId": "control",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 573,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 12
+                },
+                {
+                  "name": "remaining",
+                  "at": 574,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 575,
+              "end": 607,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 575,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 575,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 576,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 30
+                },
+                {
+                  "name": "topic_len",
+                  "at": 577,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 24
+                },
+                {
+                  "name": "topic",
+                  "at": 579,
+                  "len": 24,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/temperature"
+                },
+                {
+                  "name": "payload",
+                  "at": 603,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "22.0"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 607,
+              "end": 609,
+              "category": "matched",
+              "messageId": "control",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 607,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 12
+                },
+                {
+                  "name": "remaining",
+                  "at": 608,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 609,
+              "end": 611,
+              "category": "matched",
+              "messageId": "control",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 609,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 14
+                },
+                {
+                  "name": "remaining",
+                  "at": 610,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            }
+          ]
+        },
+        {
+          "id": "9d485312:c0001:ba",
+          "outOfScope": false,
+          "counts": {
+            "matched": 10
+          },
+          "unknownBytes": 1,
+          "messages": [
+            {
+              "start": 0,
+              "end": 4,
+              "category": "matched",
+              "messageId": "connack",
+              "unknownBytes": 1,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 0,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "remaining",
+                  "at": 1,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "session_present",
+                  "at": 2,
+                  "len": 1,
+                  "status": "unknown",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "return_code",
+                  "at": 3,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H6",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 4,
+              "end": 9,
+              "category": "matched",
+              "messageId": "suback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 4,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 9
+                },
+                {
+                  "name": "remaining",
+                  "at": 5,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "packet_id",
+                  "at": 6,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                },
+                {
+                  "name": "granted_qos",
+                  "at": 8,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 9,
+              "end": 14,
+              "category": "matched",
+              "messageId": "suback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 9,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 9
+                },
+                {
+                  "name": "remaining",
+                  "at": 10,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "packet_id",
+                  "at": 11,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "granted_qos",
+                  "at": 13,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H11",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 1
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 14,
+              "end": 18,
+              "category": "matched",
+              "messageId": "puback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 14,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "remaining",
+                  "at": 15,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "packet_id",
+                  "at": 16,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 18,
+              "end": 22,
+              "category": "matched",
+              "messageId": "puback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 18,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "remaining",
+                  "at": 19,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "packet_id",
+                  "at": 20,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 22,
+              "end": 26,
+              "category": "matched",
+              "messageId": "puback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 22,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "remaining",
+                  "at": 23,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "packet_id",
+                  "at": 24,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 5
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 26,
+              "end": 30,
+              "category": "matched",
+              "messageId": "puback",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 26,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 4
+                },
+                {
+                  "name": "remaining",
+                  "at": 27,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 2
+                },
+                {
+                  "name": "packet_id",
+                  "at": 28,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H9",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 6
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 30,
+              "end": 63,
+              "category": "matched",
+              "messageId": "publish",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 30,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 3
+                },
+                {
+                  "name": "qos",
+                  "at": 30,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H2",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                },
+                {
+                  "name": "remaining",
+                  "at": 31,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 31
+                },
+                {
+                  "name": "topic_len",
+                  "at": 32,
+                  "len": 2,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 25
+                },
+                {
+                  "name": "topic",
+                  "at": 34,
+                  "len": 25,
+                  "status": "hypothesis",
+                  "hypothesis": "H7",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "plant/line-2/cmd/setpoint"
+                },
+                {
+                  "name": "payload",
+                  "at": 59,
+                  "len": 4,
+                  "status": "hypothesis",
+                  "hypothesis": "H8",
+                  "state": "decoded",
+                  "valueType": "string",
+                  "value": "22.0"
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 63,
+              "end": 65,
+              "category": "matched",
+              "messageId": "control",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 63,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 13
+                },
+                {
+                  "name": "remaining",
+                  "at": 64,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            },
+            {
+              "start": 65,
+              "end": 67,
+              "category": "matched",
+              "messageId": "control",
+              "unknownBytes": 0,
+              "fields": [
+                {
+                  "name": "type",
+                  "at": 65,
+                  "len": 1,
+                  "status": "hypothesis",
+                  "hypothesis": "H1",
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 13
+                },
+                {
+                  "name": "remaining",
+                  "at": 66,
+                  "len": 1,
+                  "status": "rule",
+                  "hypothesis": null,
+                  "state": "decoded",
+                  "valueType": "int",
+                  "value": 0
+                }
+              ],
+              "violations": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H4",
+      "statement": "keepalive — интервал проверки связи в секундах",
+      "test": "keepalive == action.params.keepalive",
+      "test": "keepalive == action.params.keepalive",
+      "verdict": "no_counterexample",
+      "applicable": 1,
+      "held": 1,
+      "notApplicable": 24,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H5",
+      "statement": "client_id — идентификатор клиента: длина u16 и текст",
+      "test": "client_id == action.params.client_id",
+      "test": "client_id == action.params.client_id",
+      "verdict": "no_counterexample",
+      "applicable": 1,
+      "held": 1,
+      "notApplicable": 24,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H6",
+      "statement": "return_code — итог подключения: 0 — принято",
+      "test": "return_code == action.result.code",
+      "test": "return_code == action.result.code",
+      "verdict": "no_counterexample",
+      "applicable": 1,
+      "held": 1,
+      "notApplicable": 24,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H7",
+      "statement": "topic — тема публикации: длина u16 и текст",
+      "test": "topic == action.params.topic",
+      "test": "topic == action.params.topic",
+      "verdict": "no_counterexample",
+      "applicable": 9,
+      "held": 9,
+      "notApplicable": 16,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H8",
+      "statement": "payload — данные публикации до конца пакета",
+      "test": "payload == action.params.value",
+      "test": "payload == action.params.value",
+      "verdict": "no_counterexample",
+      "applicable": 9,
+      "held": 9,
+      "notApplicable": 16,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H9",
+      "statement": "packet_id — номер пакета; подтверждение повторяет номер своего запроса",
+      "test": "packet_id == response.packet_id",
+      "test": "packet_id == response.packet_id",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 23,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H10",
+      "statement": "filter — фильтр тем подписки: длина u16 и текст",
+      "test": "filter == action.params.topic",
+      "test": "filter == action.params.topic",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 23,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    },
+    {
+      "id": "H11",
+      "statement": "уровень доставки в подписке: клиент запрашивает, брокер подтверждает выданный",
+      "test": "granted_qos == action.result.granted_qos",
+      "test": "granted_qos == action.result.granted_qos",
+      "verdict": "no_counterexample",
+      "applicable": 2,
+      "held": 2,
+      "notApplicable": 23,
+      "counterexamplesTotal": 0,
+      "counterexamples": [],
+      "errorsTotal": 0,
+      "errors": [],
+      "logs": [
+        "log-0001"
+      ]
+    }
+  ]
+}

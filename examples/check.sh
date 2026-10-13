@@ -16,6 +16,7 @@ cases=(
   "stand|apply-main|main.pcapng|main.actions.csv|mapping.yaml"
   "stand|apply-extra|extra.pcapng|extra.actions.csv|mapping.yaml"
   "modbus|apply-session|session.pcap|actions.csv|mapping.yaml"
+  "mqtt|apply-session|session.pcap|actions.csv|mapping.yaml"
   "thermostand|apply-01_configuration|sample_protocol/research/01_configuration.pcap|sample_protocol/action_journal.csv|mapping.yaml"
   "thermostand|apply-02_variations|sample_protocol/research/02_variations.pcapng|sample_protocol/action_journal.csv|mapping.yaml"
   "thermostand|apply-03_combined_messages|sample_protocol/research/03_combined_messages.pcap|sample_protocol/action_journal.csv|mapping.yaml"

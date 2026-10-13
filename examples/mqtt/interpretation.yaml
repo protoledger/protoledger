@@ -1,0 +1,97 @@
+# MQTT 3.1.1: описание, восстановленное по записи session.pcap и сверенное со спецификацией
+# MQTT Version 3.1.1 (OASIS Standard). Длина пакета — число переменного размера, поля после
+# строк стоят «сразу за предыдущим»: их место зависит от длины строки.
+format: protoledger/interpretation@1
+scope:
+  direction: any
+  filter: "dst_port == 1883 || src_port == 1883"
+framing:
+  kind: length_prefixed
+  length: { at: 1, type: varint }
+  status: rule
+messages:
+  - id: connect
+    description: Подключение клиента
+    when: "type == 1"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, status: rule, description: "число байт после поля длины" }
+      - { name: protocol_len, at: next, type: u16be, status: hypothesis, hypothesis: H3 }
+      - { name: protocol, at: next, type: string, len: "protocol_len", expect: "MQTT", status: hypothesis, hypothesis: H3 }
+      - { name: level, at: next, type: u8, expect: 4, status: hypothesis, hypothesis: H3 }
+      - { name: connect_flags, at: next, type: u8, status: unknown }
+      - { name: keepalive, at: next, type: u16be, status: hypothesis, hypothesis: H4 }
+      - { name: client_len, at: next, type: u16be, status: hypothesis, hypothesis: H5 }
+      - { name: client_id, at: next, type: string, len: "client_len", status: hypothesis, hypothesis: H5 }
+  - id: connack
+    description: Ответ на подключение
+    when: "type == 2"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: session_present, at: next, type: u8, status: unknown }
+      - { name: return_code, at: next, type: u8, status: hypothesis, hypothesis: H6 }
+  - id: publish
+    description: Публикация без подтверждения доставки
+    when: "type == 3 && qos == 0"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: qos, at: 0, type: u8, mask: 0x06, status: hypothesis, hypothesis: H2 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: topic_len, at: next, type: u16be, status: hypothesis, hypothesis: H7 }
+      - { name: topic, at: next, type: string, len: "topic_len", status: hypothesis, hypothesis: H7 }
+      - { name: payload, at: next, type: string, len: to_end, status: hypothesis, hypothesis: H8 }
+  - id: publish_acked
+    description: Публикация с подтверждением — у пакета есть номер
+    when: "type == 3 && qos != 0"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: qos, at: 0, type: u8, mask: 0x06, status: hypothesis, hypothesis: H2 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: topic_len, at: next, type: u16be, status: hypothesis, hypothesis: H7 }
+      - { name: topic, at: next, type: string, len: "topic_len", status: hypothesis, hypothesis: H7 }
+      - { name: packet_id, at: next, type: u16be, status: hypothesis, hypothesis: H9 }
+      - { name: payload, at: next, type: string, len: to_end, status: hypothesis, hypothesis: H8 }
+  - id: puback
+    description: Подтверждение публикации
+    when: "type == 4"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: packet_id, at: next, type: u16be, status: hypothesis, hypothesis: H9 }
+  - id: subscribe
+    description: Подписка на тему
+    when: "type == 8"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: packet_id, at: next, type: u16be, status: hypothesis, hypothesis: H9 }
+      - { name: filter_len, at: next, type: u16be, status: hypothesis, hypothesis: H10 }
+      - { name: filter, at: next, type: string, len: "filter_len", status: hypothesis, hypothesis: H10 }
+      - { name: requested_qos, at: next, type: u8, status: hypothesis, hypothesis: H11 }
+  - id: suback
+    description: Подтверждение подписки
+    when: "type == 9"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, status: rule }
+      - { name: packet_id, at: next, type: u16be, status: hypothesis, hypothesis: H9 }
+      - { name: granted_qos, at: next, type: u8, status: hypothesis, hypothesis: H11 }
+  - id: control
+    description: Пакеты без тела — проверка связи (12, 13) и отключение (14)
+    when: "type >= 12"
+    fields:
+      - { name: type, at: 0, type: u8, mask: 0xf0, status: hypothesis, hypothesis: H1 }
+      - { name: remaining, at: 1, type: varint, expect: 0, status: rule }
+hypotheses:
+  - { id: H1, statement: "type — тип пакета в старших четырёх битах первого байта" }
+  - { id: H2, statement: "qos — уровень доставки в битах 1–2 первого байта: при ненулевом у публикации появляется номер пакета" }
+  - { id: H3, statement: "подключение начинается с имени протокола «MQTT» и уровня 4" }
+  - { id: H4, statement: "keepalive — интервал проверки связи в секундах", test: "keepalive == action.params.keepalive" }
+  - { id: H5, statement: "client_id — идентификатор клиента: длина u16 и текст", test: "client_id == action.params.client_id" }
+  - { id: H6, statement: "return_code — итог подключения: 0 — принято", test: "return_code == action.result.code" }
+  - { id: H7, statement: "topic — тема публикации: длина u16 и текст", test: "topic == action.params.topic" }
+  - { id: H8, statement: "payload — данные публикации до конца пакета", test: "payload == action.params.value" }
+  - { id: H9, statement: "packet_id — номер пакета; подтверждение повторяет номер своего запроса", test: "packet_id == response.packet_id" }
+  - { id: H10, statement: "filter — фильтр тем подписки: длина u16 и текст", test: "filter == action.params.topic" }
+  - { id: H11, statement: "уровень доставки в подписке: клиент запрашивает, брокер подтверждает выданный", test: "granted_qos == action.result.granted_qos" }
