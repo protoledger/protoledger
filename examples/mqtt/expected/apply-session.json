@@ -19,14 +19,14 @@
   "inputs": [
     {
       "name": "session.pcap",
-      "sha256": "9d485312ae574b9788339942083d0f3542558b2c3af6627cfaa6658223aae29d",
+      "sha256": "03608e967f46b419ab6ee10fc5259cf3a770713734eb1648723f98ac023310ac",
       "format": "pcap",
       "frames": 42,
       "connections": 1,
       "diagnostics": [],
       "streams": [
         {
-          "id": "9d485312:c0001:ab",
+          "id": "03608e96:c0001:ab",
           "outOfScope": false,
           "counts": {
             "matched": 15
@@ -1036,7 +1036,7 @@
           ]
         },
         {
-          "id": "9d485312:c0001:ba",
+          "id": "03608e96:c0001:ba",
           "outOfScope": false,
           "counts": {
             "matched": 10
@@ -1580,9 +1580,9 @@
       "test": "packet_id == response.packet_id",
       "test": "packet_id == response.packet_id",
       "verdict": "no_counterexample",
-      "applicable": 2,
-      "held": 2,
-      "notApplicable": 23,
+      "applicable": 4,
+      "held": 4,
+      "notApplicable": 21,
       "counterexamplesTotal": 0,
       "counterexamples": [],
       "errorsTotal": 0,
