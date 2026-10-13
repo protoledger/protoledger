@@ -4,9 +4,14 @@
 #   examples/check.sh protoledger
 #   examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci   (пути внутри — /examples)
 set -euo pipefail
-cd "$(dirname "${BASH_SOURCE[0]}")"
 [ $# -gt 0 ] || { echo "укажите команду protoledger" >&2; exit 2; }
 run=("$@")
+# Путь к бинарнику задан от каталога запуска, а сверка идёт из examples/.
+if [[ "${run[0]}" == */* && -e "${run[0]}" ]]; then
+  run[0]="$(cd "$(dirname "${run[0]}")" && pwd)/$(basename "${run[0]}")"
+fi
+cd "$(dirname "${BASH_SOURCE[0]}")"
+command -v "${run[0]}" >/dev/null || { echo "команда не найдена: ${run[0]}" >&2; exit 2; }
 # В контейнере каталог примеров смонтирован в /examples, у локального бинарника — текущий каталог.
 root="."
 case " $* " in *" docker "*) root="/examples" ;; esac
