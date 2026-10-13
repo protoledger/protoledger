@@ -12,6 +12,9 @@ RUN pnpm generate
 FROM rust:1-trixie AS engine
 WORKDIR /src
 COPY backend/ ./
+# Компилятор уже есть в базовом образе. Файл с каналом stable заставил бы rustup при каждой сборке
+# скачивать его заново с static.rust-lang.org — лишние сотни мегабайт и ещё один внешний сервер.
+RUN rm -f rust-toolchain.toml
 COPY --from=ui /ui/.output/public /ui-dist
 ENV UI_DIST=/ui-dist
 RUN cargo build --release --locked -p protoledger && cp target/release/protoledger /protoledger
