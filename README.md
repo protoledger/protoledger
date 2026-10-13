@@ -31,6 +31,8 @@ protoledger превращает записи обмена (PCAP/PCAPNG) и жу
 4. **Проверить** — применить описание к корпусу: сводка по всему набору, контрпримеры, сравнение с прошлой проверкой.
 5. **Передать** — отчёт с основаниями, машиночитаемое описание, папка проекта, команда повторного применения.
 
+Тот же цикл на наборе организаторов шаг за шагом, с командами, — [docs/guide.md](docs/guide.md).
+
 Работает локально и офлайн: настольное приложение, интерфейс в браузере на localhost и командная строка.
 
 ## Быстрый старт
@@ -77,7 +79,7 @@ tar -xzf protoledger-*-linux-x86_64.tar.gz
 | `backend/` | движок на Rust: чтение записей, сборка TCP, интерпретация, проверка, API, CLI ([protoledger-backend](https://github.com/protoledger/protoledger-backend)) |
 | `frontend/` | интерфейс на Nuxt ([protoledger-frontend](https://github.com/protoledger/protoledger-frontend)) |
 | `examples/` | примеры входных данных и ожидаемые результаты |
-| `docs/` | [архитектура](docs/architecture.md), [форматы](docs/formats.md), [проверка требований](docs/requirements.md), [безопасность](docs/security.md), [ограничения и замеры](docs/limits.md) |
+| `docs/` | [как пользоваться — шаг за шагом](docs/guide.md), [архитектура](docs/architecture.md), [форматы](docs/formats.md), [проверка требований](docs/requirements.md), [безопасность](docs/security.md), [ограничения и замеры](docs/limits.md) |
 | `bench/` | замеры времени и памяти |
 | `Dockerfile`, `compose.yaml` | сборка и запуск |
 
