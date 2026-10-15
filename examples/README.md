@@ -4,7 +4,7 @@
 
 ## thermostand — набор организаторов
 
-Записи и журнал «Термостенда» без изменений, восстановленное описание протокола и эталоны `apply` на каждой записи, включая дополнительную. Там же готовый проект с этим исследованием (`thermostand/project/`): три прогона, наблюдения, гипотезы, отчёт. Подробно — [thermostand/README.md](thermostand/README.md).
+Записи и журнал «Термостенда» без изменений, восстановленное описание протокола и эталоны `apply` на каждой записи, включая дополнительную. Там же готовый проект с этим исследованием (`thermostand/project/`): три проверки, заметки, предположения, отчёт. Подробно — [thermostand/README.md](thermostand/README.md).
 
 Сверить все эталоны примеров разом (CI делает это на каждом изменении):
 
@@ -28,7 +28,7 @@ bash examples/check.sh docker run --rm -v "$PWD/examples:/examples:ro" app:ci
 | Файл | Что внутри |
 |---|---|
 | `main.pcapng`, `main.actions.csv` | Основная запись: уставка 21, 37, 1000; чтение параметров; измерения каналов 1–3; ошибка «значение вне диапазона» |
-| `extra.pcapng`, `extra.actions.csv` | Дополнительная запись другим клиентом: уставка 70000, −5, 123456 — ломают гипотезу «значение — u16» |
+| `extra.pcapng`, `extra.actions.csv` | Дополнительная запись другим клиентом: уставка 70000, −5, 123456 — ломают предположение «значение — u16» |
 | `mapping.yaml` | Сопоставление колонок журнала (`time,action,params,result`) |
 | `interpretation.yaml` | Описание протокола стенда |
 | `expected/apply-main.json`, `expected/apply-extra.json` | Результат `protoledger apply` на каждой записи |
@@ -45,7 +45,7 @@ protoledger apply --interpretation examples/stand/interpretation.yaml \
 diff /tmp/apply-main.json examples/stand/expected/apply-main.json && echo совпало
 ```
 
-Код возврата `0` — всё описано, `1` — есть отличия (с `--strict`), `2` — ошибка. Для `extra.pcapng` эталон содержит контрпримеры: значения не влезают в 16 бит.
+Код возврата `0` — всё описано, `1` — есть отличия (с `--strict`), `2` — ошибка. Для `extra.pcapng` эталон содержит расхождения: значения не влезают в 16 бит.
 
 Через Docker (образ запускает `protoledger`, каталог примеров подключается только для чтения):
 
@@ -55,7 +55,7 @@ docker compose run --rm -T -v "$PWD/examples:/examples:ro" app apply \
   --action-log /examples/stand/main.actions.csv --mapping /examples/stand/mapping.yaml
 ```
 
-Проект с прогонами проверяется командой `protoledger verify <папка проекта>` (см. `docs/cli.md` движка).
+Проект проверяется командой `protoledger verify <папка проекта>` (см. `docs/cli.md` движка).
 
 ## hostile — «злые» записи
 
