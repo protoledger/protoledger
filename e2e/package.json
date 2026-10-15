@@ -1,0 +1,9 @@
+{
+  "name": "protoledger-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Демо-сценарий в браузере со скриншотами шагов",
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

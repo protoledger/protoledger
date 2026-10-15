@@ -1,0 +1,53 @@
+name: e2e
+
+# Демо-сценарий в браузере на собранном образе: те же нажатия, что делает человек, скриншот каждого шага.
+# Не на каждый коммит: вручную перед релизом и при изменении самого сценария.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "e2e/**"
+      - ".github/workflows/e2e.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      - uses: docker/setup-buildx-action@v3
+      - name: Сборка образа
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: app:e2e
+          cache-from: type=gha
+      - name: Запуск как у пользователя
+        run: |
+          docker run -d --name app -p 127.0.0.1:8080:8080 -v "$PWD/workspace:/data" --user "$(id -u):$(id -g)" \
+            --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges:true app:e2e
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8080/api/health && break
+            [ "$i" = 30 ] && { docker logs app; exit 1; }
+            sleep 2
+          done
+      - name: Демо 1–11 в браузере
+        run: bash e2e/run.sh http://127.0.0.1:8080
+      - name: Сводка
+        if: always()
+        run: test -f e2e/out/summary.md && cat e2e/out/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-screenshots
+          path: e2e/out/
