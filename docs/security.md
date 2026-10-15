@@ -24,7 +24,7 @@ protoledger работает с недоверенными данными — з
 | Падение на кривых длинах и заголовках | В разборщиках запрещены `unwrap`, `expect`, индексация без проверки и `panic` (линтер, уровень `deny`); `unsafe` запрещён во всех крейтах. Ошибка кадра — диагностика кадра, импорт продолжается | `corrupted_bytes_never_panic`, `every_prefix_of_a_file_is_handled`, `hostile_samples_match_expected_outcomes` |
 | Заявленная длина «4 ГиБ» | Длина сверяется с остатком файла и с пределом до выделения памяти | `no_giant_allocation_on_declared_lengths` |
 | Скачок номера последовательности TCP | Поток — список участков; дыра хранится как метаданные, байты под неё не выделяются | `seq_jump_becomes_a_gap_not_bytes`, `seq_jump_of_half_the_space_is_ignored_safely` |
-| Сотни тысяч соединений, тысячи перекрытий | Пределы с явной ошибкой `limit-exceeded`, без молчаливого обрезания | `large_records_hit_limits_or_finish_in_time`, `connection_limit_is_reported_as_problem` |
+| Сотни тысяч соединений, тысячи перекрытий | Пределы с явной ошибкой `limit-exceeded`, без молчаливого обрезания | `large_records_hit_limits_or_finish_in_time`, `connections_over_the_limit_are_diagnosed_not_fatal` |
 | Файл не является записью, пуст, обрезан | Проверка сигнатуры и типа (только обычные файлы), предел размера | `not_a_capture`, `file_size_limit`, `rejects_non_capture_and_leaves_no_temp_files` |
 | Зависание без обратной связи | Долгие операции — задачи с прогрессом и отменой | `cancellation_stops_import`, `delete_cancels_running_job` |
 | Непредвиденная ошибка роняет сервер | Каждая задача изолирована: сбой превращается в ошибку задачи, сервер продолжает отвечать | `panic_becomes_failed_job`, `every_hostile_file_is_handled_and_server_stays_alive` |
