@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>protoledger — презентация</title>
+<style>
+  @page { size: 1920px 1080px; margin: 0; }
+  :root { --bg: #15151a; --panel: #1f1f26; --fg: #ececf1; --muted: #a3a3b2; --accent: #d0476b; --ok: #6cc28a; --bad: #e0606a; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); font-family: "Noto Sans", "DejaVu Sans", "Segoe UI", sans-serif; }
+  section { width: 1920px; height: 1080px; padding: 80px 110px; position: relative; overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
+  section:last-child { page-break-after: auto; }
+  h1 { font-size: 92px; margin: 0 0 24px; letter-spacing: -1px; }
+  h2 { font-size: 56px; margin: 0 0 40px; }
+  h2 small { display: block; font-size: 28px; color: var(--muted); font-weight: 400; margin-top: 12px; }
+  p, li { font-size: 32px; line-height: 1.45; }
+  ul { margin: 0; padding-left: 36px; }
+  li { margin-bottom: 14px; }
+  b, .accent { color: var(--accent); }
+  .muted { color: var(--muted); }
+  .num { position: absolute; right: 110px; bottom: 48px; font-size: 22px; color: var(--muted); }
+  .brand { position: absolute; left: 110px; bottom: 48px; font-size: 22px; color: var(--muted); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; flex: 1; min-height: 0; }
+  .cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+  .cols > table, .cols > div { align-self: start; }
+  .shot { width: 100%; border: 2px solid #33333d; border-radius: 10px; display: block; }
+  .big { flex: 1; min-height: 0; display: flex; align-items: flex-start; justify-content: center; }
+  .big img { max-height: 760px; max-width: 100%; }
+  .card { background: var(--panel); border-radius: 12px; padding: 30px 34px; }
+  .card h3 { margin: 0 0 14px; font-size: 32px; }
+  .card p, .card li { font-size: 27px; }
+  table { border-collapse: collapse; width: 100%; font-size: 29px; }
+  td, th { padding: 14px 18px; border-bottom: 1px solid #34343f; text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+  td.r { text-align: right; white-space: nowrap; color: var(--accent); font-weight: 700; }
+  .flow { display: flex; gap: 18px; align-items: stretch; margin: 10px 0 36px; }
+  .flow div { flex: 1; background: var(--panel); border-radius: 10px; padding: 22px; font-size: 26px; text-align: center; border-top: 4px solid var(--accent); }
+  .flow div b { display: block; font-size: 30px; margin-bottom: 6px; }
+  .arch { font-family: "DejaVu Sans Mono", monospace; font-size: 24px; line-height: 1.35; background: var(--panel); border-radius: 12px; padding: 28px 34px; white-space: pre; color: #dcdce6; }
+  .title-bg { background: radial-gradient(circle at 80% 20%, #3a1622 0, var(--bg) 55%); justify-content: center; }
+  .pill { display: inline-block; padding: 6px 18px; border: 2px solid var(--accent); border-radius: 30px; font-size: 24px; color: var(--accent); margin-right: 12px; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); }
+</style>
+</head>
+<body>
+
+<section class="title-bg">
+  <div class="muted" style="font-size:30px;margin-bottom:24px">Кейс «Лаборатория протоколов» · Мадригал</div>
+  <h1>protoledger</h1>
+  <p style="font-size:44px;max-width:1500px;margin:0 0 40px">Журнал исследования протокола: от записей трафика к&nbsp;проверяемому, повторно применимому и&nbsp;переносимому описанию обмена.</p>
+  <div><span class="pill">локально и офлайн</span><span class="pill">окно · браузер · командная строка</span><span class="pill">Rust + Nuxt</span></div>
+  <div class="brand">github.com/protoledger/protoledger</div>
+</section>
+
+<section>
+  <h2>Проблема</h2>
+  <div class="cols">
+    <div>
+      <p>Подключить систему к устройству без документации на протокол — обычная задача интеграции: контроллеры, измерительные приборы, IoT, устаревшие сервисы.</p>
+      <p>Сегодня это Wireshark, hex-редактор, заметки и одноразовые скрипты.</p>
+    </div>
+    <div class="card">
+      <h3>Что ломается</h3>
+      <ul>
+        <li>Выводы <b>не привязаны к байтам</b> конкретной записи</li>
+        <li>Догадка выглядит так же, как установленный факт</li>
+        <li>На новой записи всё проверяется <b>заново руками</b></li>
+        <li>Коллеге передаётся результат, но <b>не основания</b></li>
+        <li>Дефекты захвата (потери, повторы, offload) путают выводы</li>
+      </ul>
+    </div>
+  </div>
+  <div class="num">2</div>
+</section>
+
+<section>
+  <h2>Решение: цикл исследования в одном инструменте</h2>
+  <div class="flow">
+    <div><b>Записи</b>сборка TCP, дефекты явно</div>
+    <div><b>Исследование</b>границы, обмены, сравнение</div>
+    <div><b>Описание</b>правило · гипотеза · неизвестно</div>
+    <div><b>Проверка</b>корпус, контрпримеры</div>
+    <div><b>Передача</b>отчёт, YAML, папка проекта</div>
+  </div>
+  <div class="big"><img class="shot" src="../img/compare.png" alt="Сравнение сообщений" style="max-height:640px"></div>
+  <div class="num">3</div>
+</section>
+
+<section>
+  <h2>Демо 1. Записи и потоки<small>11 записей «Термостенда» и журнал из 109 действий; колонки журнала угадываются сами</small></h2>
+  <div class="cols">
+    <img class="shot" src="../img/project.png" alt="Проект">
+    <img class="shot" src="../img/stream.png" alt="Поток">
+  </div>
+  <p class="muted" style="font-size:26px;margin-top:24px">Повторы не задваиваются, дыра остаётся дырой, перекрытие с разными байтами — «неоднозначно», частичная контрольная сумма распознана как offload. Каждый байт — с кадром и смещением.</p>
+  <div class="num">4</div>
+</section>
+
+<section>
+  <h2>Демо 2. Границы, обмены, связи с журналом</h2>
+  <div class="cols">
+    <img class="shot" src="../img/bounds.png" alt="Границы">
+    <img class="shot" src="../img/exchange.png" alt="Обмен">
+  </div>
+  <p class="muted" style="font-size:26px;margin-top:24px">Поле длины u16 BE @2 +8 подтверждено на 100 % сообщений, сигнатура A6 5C. Для действия set-config c порогом 19 найдены запрос и ответ: 07 6C = 1900. Это подсказки с основаниями, а не выводы.</p>
+  <div class="num">5</div>
+</section>
+
+<section>
+  <h2>Демо 3. Ошибка → контрпример → уточнение</h2>
+  <div class="cols">
+    <div><img class="shot" src="../img/verify-refuted.png" alt="Проверка"><p style="font-size:26px">Порог прочитан как <b>u16</b>: 200 сообщений, гипотезы H6 и H12 <span class="bad">опровергнуты</span> на пороге −2,5 °C (65286 ≠ −250), со строкой журнала.</p></div>
+    <div><img class="shot" src="../img/verify-fixed.png" alt="После уточнения"><p style="font-size:26px">Исправлено на <b>i16</b> — новая ревизия, прогон по всему корпусу: 216 сообщений, <span class="ok">0 контрпримеров</span>; сравнение прогонов показывает, что изменилось.</p></div>
+  </div>
+  <div class="num">6</div>
+</section>
+
+<section>
+  <h2>Как это работает</h2>
+  <div class="cols" style="grid-template-columns: 1.25fr 1fr">
+    <div class="arch">SPA (Nuxt) — в браузере или окне Tauri
+        │  HTTP JSON /api · SSE · только 127.0.0.1
+        │  Host/Origin + токен сессии
+движок protoledger (Rust, один бинарник)
+  pl-server    API, защита, встроенная SPA
+  pl-app       сценарии, реестр задач
+  pl-capture   pcap/pcapng → индекс кадров
+  pl-reassembly TCP: потоки, дыры, перекрытия
+  pl-actions   журнал действий (CSV)
+  pl-interp    описание протокола, выражения
+  pl-verify    прогоны, контрпримеры
+  pl-report    отчёт MD / HTML
+  pl-project   папка проекта, атомарная запись
+        │
+<имя>.protoledger/  YAML/JSON + копии записей</div>
+    <div>
+      <div class="card" style="margin-bottom:28px"><h3>Один движок — три оболочки</h3><p>Окно приложения (.msi, .deb, AppImage), браузер (<code>docker compose up</code> или бинарник <code>serve</code>), командная строка: <code>apply</code>, <code>verify</code>, <code>report</code>, <code>draft</code>.</p></div>
+      <div class="card"><h3>Без базы данных</h3><p>Состояние — папка проекта: текстовые YAML/JSON и неизменные копии записей с sha256. Перенос — копирование папки, <code>protoledger verify</code> воспроизводит прогоны.</p></div>
+    </div>
+  </div>
+  <div class="num">7</div>
+</section>
+
+<section>
+  <h2>Достоверность и воспроизводимость</h2>
+  <div class="cols3">
+    <div class="card"><h3>Знание со статусом</h3><ul><li>Поле — правило, гипотеза или неизвестно</li><li>Гипотеза — «поддержана k из n», не «доказана»</li><li>Каждый вывод — якорь на байты записи</li></ul></div>
+    <div class="card"><h3>Честные категории</h3><ul><li>Свойства протокола: нарушено, не охвачено</li><li>Дефекты записи: неполное, неоднозначное</li><li>Ограничения реализации: не поддержано, превышен предел</li></ul></div>
+    <div class="card"><h3>Воспроизводимо</h3><ul><li>Ревизии описания хранятся все</li><li>Прогон подписан хешами входов: устаревший виден</li><li>Детерминированный вывод: CLI ≡ интерфейс</li></ul></div>
+  </div>
+  <div class="cols3" style="margin-top:36px">
+    <div class="card"><h3>Безопасность</h3><ul><li>Только 127.0.0.1, проверка Host и Origin, токен сессии, CSP</li><li>Без <code>unsafe</code>, без <code>unwrap</code> на данных</li></ul></div>
+    <div class="card"><h3>Злые входы</h3><ul><li>93 «злых» файла в корпусе, 5 целей фаззинга</li><li>Битый кадр — диагностика, а не падение</li></ul></div>
+    <div class="card"><h3>Проверки в CI</h3><ul><li>419 тестов движка, Linux и Windows</li><li>16 эталонов, демо по кнопкам в браузере</li></ul></div>
+  </div>
+  <div class="num">8</div>
+</section>
+
+<section>
+  <h2>Результаты на данных кейса</h2>
+  <div class="cols">
+    <table>
+      <tr><th colspan="2">«Термостенд», набор организаторов</th></tr>
+      <tr><td>Записей / действий журнала</td><td class="r">11 / 109</td></tr>
+      <tr><td>Сообщений после уточнения, контрпримеров</td><td class="r">216 / 0</td></tr>
+      <tr><td>Дополнительная запись без правки описания</td><td class="r">16 из 16</td></tr>
+      <tr><td>Черновик описания без знаний о протоколе</td><td class="r">16 из 16</td></tr>
+      <tr><td>Диагностические записи: дефект распознан</td><td class="r">8 из 8</td></tr>
+      <tr><td>Modbus и MQTT — тот же движок, без кода о них</td><td class="r">эталоны в CI</td></tr>
+      <tr><td>Чужая запись 4SICS (Modbus/TCP)</td><td class="r">19 из 19</td></tr>
+    </table>
+    <table>
+      <tr><th colspan="2">Профиль ТЗ: 100 МиБ, 250 тыс. кадров, 1000 соединений, ответы до 64 КиБ; 4 vCPU / 8 ГиБ</th></tr>
+      <tr><td>Разбор записи (CLI)</td><td class="r">0,20 с</td></tr>
+      <tr><td>Импорт в проект: копия, sha256, сборка</td><td class="r">0,80 с</td></tr>
+      <tr><td>Прогон 235 тыс. сообщений с гипотезами</td><td class="r">0,78 с</td></tr>
+      <tr><td>Отчёт</td><td class="r">0,02 с</td></tr>
+      <tr><td>Пик памяти движка</td><td class="r">200 МиБ</td></tr>
+    </table>
+  </div>
+  <div class="num">9</div>
+</section>
+
+<section>
+  <h2>Ограничения и развитие</h2>
+  <div class="cols">
+    <div class="card"><h3>Сейчас — честно</h3><ul>
+      <li>Область ТЗ: Ethernet + IPv4 + TCP; IPv6, UDP и фрагменты IP — пропускаются с диагностикой</li>
+      <li>Шифрованный трафик не разбирается — показывается как неописанные байты</li>
+      <li>Запись читается в память целиком (предел 1 ГиБ)</li>
+      <li>Гипотеза не становится доказанной: проверена только на наблюдавшихся значениях</li>
+      <li>Установщики — Windows и Linux</li>
+    </ul></div>
+    <div class="card"><h3>Дальше</h3><ul>
+      <li>IPv6 и UDP — новые слои того же конвейера</li>
+      <li>Чтение записи частями для файлов больше памяти</li>
+      <li>Эксперименты со стендом из приложения: конструктор сообщений</li>
+      <li>Двойник устройства по выученным парам «запрос → ответ»</li>
+      <li>Экспорт парсера: Wireshark уже есть, далее Kaitai Struct</li>
+    </ul></div>
+  </div>
+  <div class="num">10</div>
+</section>
+
+<section>
+  <h2>Команда и ссылки</h2>
+  <div class="cols">
+    <table>
+      <tr><td>sleepyhead-dev</td><td>Backend, DevOps</td></tr>
+      <tr><td>OddS-Programming</td><td>Backend</td></tr>
+      <tr><td>rinna32</td><td>Frontend</td></tr>
+      <tr><td>sky1768205</td><td>Frontend</td></tr>
+    </table>
+    <div>
+      <p><b>Репозиторий:</b><br>github.com/protoledger/protoledger</p>
+      <p><b>Релиз v0.3:</b> установщики, бинарники, запись экрана демо — страница Releases</p>
+      <p><b>Запуск:</b> <code>git clone --recursive</code> → <code>docker compose up --build</code> → localhost:8080</p>
+      <p><b>Как пользоваться:</b> docs/guide.md · <b>проверка ТЗ:</b> docs/requirements.md</p>
+    </div>
+  </div>
+  <div class="num">11</div>
+</section>
+
+</body>
+</html>

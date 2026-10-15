@@ -111,6 +111,7 @@ protoledger verify examples/thermostand/project/thermostand.protoledger
 
 - Запись экрана полного цикла на «Термостенде» (около минуты): `protoledger-demo.webm` на странице [Releases](https://github.com/protoledger/protoledger/releases).
 - Тот же сценарий можно прогнать самому — браузер нажимает кнопки и снимает каждый шаг: `docker compose up --build -d`, затем `bash e2e/run.sh` (подробнее — [docs/dev.md](docs/dev.md#демо-сценарий-в-браузере)).
+- Презентация проекта — [docs/presentation.pdf](docs/presentation.pdf) (исходник — `docs/presentation/slides.html`, сборка — `e2e/slides-pdf.mjs`).
 - Готовый проект с этим исследованием — `examples/thermostand/project`: открывается в приложении как есть.
 
 ## Структура репозитория
