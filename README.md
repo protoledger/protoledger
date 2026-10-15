@@ -59,7 +59,7 @@ tar -xzf protoledger-*-linux-x86_64.tar.gz
 
 ### Настольное приложение
 
-В Releases — установщики: Windows `.msi`, Linux `.deb` и AppImage. Приложение поднимает движок внутри себя и открывает интерфейс в своём окне; проекты по умолчанию — в папке «Документы/protoledger».
+В Releases — установщики: Windows `.msi`, Linux `.deb` и AppImage. Приложение поднимает движок внутри себя и открывает интерфейс в своём окне; проекты по умолчанию — в папке `~/protoledger` (на Windows — `C:\Users\<имя>\protoledger`).
 
 - Windows: установщик не подписан — в окне SmartScreen «Подробнее» → «Выполнить в любом случае».
 - Linux: нужен WebKitGTK 4.1 (`sudo apt install libwebkit2gtk-4.1-0` в Debian и Ubuntu 22.04+); AppImage — `chmod +x protoledger_*.AppImage && ./protoledger_*.AppImage`.
