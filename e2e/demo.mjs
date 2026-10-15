@@ -157,7 +157,9 @@ await step("2. Импорт записей и журнала действий", 
   await page.getByRole("button", { name: "Импортировать" }).click();
   await check("журнал разобран", text("разобрано действий"));
   await snap("журнал-разобран");
-  await page.getByRole("button", { name: "Закрыть" }).click().catch(() => {});
+  // У диалога два «Закрыть»: крестик и кнопка внизу — нажимаем кнопку, как человек.
+  await page.getByRole("dialog").getByRole("button", { name: "Закрыть", exact: true }).last().click();
+  await page.getByRole("dialog").waitFor({ state: "hidden" });
   await check("журнал сопоставлен", text("сопоставлено"));
   // Замечания к записи с дефектами захвата.
   await page.locator("tr", { hasText: "07_checksum_offload" }).click();
