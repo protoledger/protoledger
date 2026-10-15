@@ -72,8 +72,12 @@ async function step(title, body) {
   console.log(`${current.error || current.checks.some((c) => !c.ok) ? "ОШИБКА" : "ок    "} ${title}`);
 }
 
-async function snap(name) {
+// Нижняя панель на скриншотах свёрнута: она одинакова на всех экранах и отнимает место.
+// bottom: true — оставить её открытой (на «Проекте» она к месту).
+async function snap(name, { bottom = false } = {}) {
   shot += 1;
+  const toggle = page.getByRole("region", { name: "Нижнее окно" }).getByRole("button", { name: bottom ? "Развернуть" : "Свернуть" });
+  if (await toggle.count()) await toggle.click();
   const file = `${String(shot).padStart(2, "0")}-${name}.png`;
   await page.waitForTimeout(300);
   const hide = (v) => document.getElementById("demo-caption")?.style.setProperty("visibility", v);
@@ -135,9 +139,14 @@ async function run(only) {
 
 await step("1. Создать проект", async () => {
   await go("/");
-  await page.locator("#project-path").fill(`demo-${Date.now()}.protoledger`);
+  await page.locator("#project-path").fill("thermostand.protoledger");
   await snap("стартовый-экран");
   await page.getByRole("button", { name: "Создать новый" }).click();
+  // Папка проектов уже с прошлого прогона — тогда новый проект рядом.
+  if (await page.getByRole("alert").isVisible().catch(() => false)) {
+    await page.locator("#project-path").fill(`thermostand-${Date.now()}.protoledger`);
+    await page.getByRole("button", { name: "Создать новый" }).click();
+  }
   await check("экран проекта открыт", page.getByRole("button", { name: "+ Импорт записей" }));
   await snap("пустой-проект");
 });
@@ -164,13 +173,23 @@ await step("2. Импорт записей и журнала действий", 
   // Замечания к записи с дефектами захвата.
   await page.locator("tr", { hasText: "07_checksum_offload" }).click();
   await check("замечания к записи", text("Замечания к записи"));
-  await snap("диагностика-записи");
+  await snap("диагностика-записи", { bottom: true });
 });
 
 await step("3. Соединение и собранный поток", async () => {
   await go("/overview");
   await page.locator("tbody tr").first().click();
   await check("поток показан", page.getByRole("radiogroup", { name: "Направление" }));
+  // Первое сообщение потока — 11 байт: справа видно, из какого оно кадра и смещения.
+  // Протяжка мышью, как у человека (двойной Shift в интерфейсе открывает поиск).
+  const cells = page.getByRole("grid").getByRole("gridcell");
+  const from = await cells.nth(0).boundingBox();
+  const to = await cells.nth(10).boundingBox();
+  await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, { steps: 8 });
+  await page.mouse.up();
+  await check("выделено 11 байт", page.getByText("Выделение · 11 байт"));
   await snap("поток");
 });
 
