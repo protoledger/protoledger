@@ -118,9 +118,6 @@ jobs:
           node examples/mqtt/generate.mjs
           git diff --exit-code -- examples/modbus examples/mqtt
           test -z "$(git status --short examples/modbus examples/mqtt)"
-      - name: Замеры в профиле 4 vCPU / 8 ГиБ
-        if: steps.ready.outputs.ok == 'true' && hashFiles('bench/run.sh') != ''
-        run: bash bench/run.sh app:ci
 
   dev-image:
     runs-on: ubuntu-latest
