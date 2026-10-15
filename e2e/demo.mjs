@@ -3,6 +3,7 @@
 // Использование: node e2e/demo.mjs [адрес] [каталог скриншотов]
 //   node e2e/demo.mjs http://127.0.0.1:8080 e2e/out
 // Итог — e2e/out/summary.md: шаги, проверки, файлы скриншотов. Код возврата 1, если хоть одна проверка не прошла.
+// DEMO_VIDEO=1 — ещё и запись экрана e2e/out/demo.webm: медленнее, с подписью шага поверх интерфейса.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,8 +20,34 @@ const mistaken = correct.replaceAll(/(name: threshold_centi_c, at: \d+, type: )i
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: "ru-RU" });
+const video = process.env.DEMO_VIDEO === "1";
+const viewport = { width: 1440, height: 900 };
+const browser = await chromium.launch({ slowMo: video ? 120 : 0 });
+const context = await browser.newContext({
+  viewport,
+  locale: "ru-RU",
+  ...(video ? { recordVideo: { dir: out, size: viewport } } : {}),
+});
+const page = await context.newPage();
+let caption = "";
+
+// Подпись шага для записи экрана; на скриншотах её нет.
+async function showCaption() {
+  if (!video || !caption) return;
+  await page.evaluate((t) => {
+    let el = document.getElementById("demo-caption");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "demo-caption";
+      el.style.cssText =
+        "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;padding:10px 18px;" +
+        "background:rgba(20,20,24,.92);color:#fff;font:600 18px/1.3 system-ui,sans-serif;border-radius:6px;" +
+        "pointer-events:none;max-width:80vw;text-align:center";
+      document.body.appendChild(el);
+    }
+    el.textContent = t;
+  }, caption);
+}
 const consoleErrors = [];
 page.on("console", (m) => m.type() === "error" && consoleErrors.push(m.text()));
 page.on("pageerror", (e) => consoleErrors.push(String(e)));
@@ -32,6 +59,8 @@ let shot = 0;
 async function step(title, body) {
   current = { title, checks: [], shots: [], error: null };
   steps.push(current);
+  caption = title;
+  await showCaption().catch(() => {});
   const started = Date.now();
   try {
     await body();
@@ -47,8 +76,13 @@ async function snap(name) {
   shot += 1;
   const file = `${String(shot).padStart(2, "0")}-${name}.png`;
   await page.waitForTimeout(300);
+  const hide = (v) => document.getElementById("demo-caption")?.style.setProperty("visibility", v);
+  await page.evaluate(hide, "hidden").catch(() => {});
   await page.screenshot({ path: path.join(out, file) });
+  await page.evaluate(hide, "visible").catch(() => {});
   current.shots.push(file);
+  // В записи экрана зрителю нужно время рассмотреть шаг.
+  if (video) await page.waitForTimeout(1800);
 }
 
 // Мягкая проверка: шаг продолжается, итог — в сводке.
@@ -64,6 +98,7 @@ async function check(what, locator, timeout = 15_000) {
 async function go(route) {
   await page.goto(`${base}${route}`);
   await page.waitForLoadState("networkidle");
+  await showCaption();
 }
 
 const text = (t) => page.getByText(t, { exact: false });
@@ -216,7 +251,10 @@ await step("11. Отчёт", async () => {
   await snap("отчёт-гипотезы");
 });
 
+const recording = page.video();
+await context.close();
 await browser.close();
+if (recording) fs.renameSync(await recording.path(), path.join(out, "demo.webm"));
 
 const failed = steps.filter((s) => s.error || s.checks.some((c) => !c.ok));
 const lines = [

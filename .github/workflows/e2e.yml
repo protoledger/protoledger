@@ -41,8 +41,8 @@ jobs:
             [ "$i" = 30 ] && { docker logs app; exit 1; }
             sleep 2
           done
-      - name: Демо 1–11 в браузере
-        run: bash e2e/run.sh http://127.0.0.1:8080
+      - name: Демо 1–11 в браузере, с записью экрана
+        run: DEMO_VIDEO=1 bash e2e/run.sh http://127.0.0.1:8080
       - name: Сводка
         if: always()
         run: test -f e2e/out/summary.md && cat e2e/out/summary.md >> "$GITHUB_STEP_SUMMARY" || true
