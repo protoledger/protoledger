@@ -1,6 +1,6 @@
 {
   "format": "protoledger/apply-result@1",
-  "engineVersion": "0.1.0",
+  "engineVersion": "0.3.0",
   "interpretationDigest": "eac8bcfdf9814fad14f91bc506fa22b5586c147f20ce0782281f168645546ffa",
   "policy": {
     "overlap": "first",
