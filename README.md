@@ -4,6 +4,8 @@
 
 > **Статус: в разработке.** Разделы «Быстрый старт», «Как пользоваться» и «Демо» заполняются по мере готовности.
 
+![Сравнение сообщений одного действия: меняющиеся байты сопоставлены с параметрами из журнала](docs/img/compare.png)
+
 ## Какую задачу решает
 
 Подключить систему к устройству без документации на протокол — обычная задача интеграции: промышленные контроллеры, измерительные приборы, медицинское и торговое оборудование, IoT, устаревшие сервисы. Обычно это Wireshark, hex-редактор, заметки и одноразовые скрипты: выводы не привязаны к данным, не проверены на других записях и не передаются коллеге.
@@ -72,6 +74,45 @@ tar -xzf protoledger-*-linux-x86_64.tar.gz
 
 Описание API — `API.md` и `openapi.yaml` в [репозитории движка](https://github.com/protoledger/protoledger-backend); Swagger UI есть только в dev-сборке ([docs/dev.md](docs/dev.md)).
 
+## Как пользоваться
+
+Пример — набор организаторов «Термостенд» (`examples/thermostand`): записи обмена клиента с измерительным устройством и журнал действий оператора. Протокол считается неизвестным. Полный проход с объяснением каждого шага и командами — [docs/guide.md](docs/guide.md).
+
+**1. Записи и потоки.** Импортируйте записи PCAP/PCAPNG и журнал действий (колонки журнала угадываются сами). Соединения собраны по номерам последовательности TCP; повторы, дыры, перекрытия и испорченные кадры показаны явно, а не спрятаны.
+
+![Поток клиент → сервер: байты, границы сегментов TCP, дыры](docs/img/stream.png)
+
+**2. Границы и поля.** «Границы» находят поле длины и сигнатуру с основаниями; «Действия» — запрос и ответ для каждой строки журнала; «Сравнение» сопоставляет меняющиеся байты с параметрами действий.
+
+![Кандидаты поля длины: u16 BE по смещению 2, подтверждено на всех сообщениях](docs/img/bounds.png)
+
+**3. Описание и проверка.** Описание протокола — YAML: фрейминг, типы сообщений, поля со статусом «правило», «гипотеза» или «неизвестно», гипотезы с тестами. Проверка применяет его ко всем записям и показывает контрпримеры: здесь порог прочитан как беззнаковое число, и гипотеза опровергнута на отрицательном пороге из журнала.
+
+![Проверка на корпусе: 200 сообщений, H6 и H12 опровергнуты](docs/img/verify-refuted.png)
+
+**4. Уточнение и отчёт.** После исправления типа поля — новая ревизия и новый прогон: 216 сообщений, контрпримеров нет, сравнение с прошлым прогоном показывает, что изменилось. Отчёт (HTML, Markdown) и описание (YAML) передаются вместе с папкой проекта; `protoledger verify` воспроизводит всё на другой машине.
+
+![Проверка после уточнения: 0 контрпримеров, сравнение с прошлым прогоном](docs/img/verify-fixed.png)
+
+То же из командной строки:
+
+```bash
+S=examples/thermostand/sample_protocol
+protoledger draft --input $S/research/01_configuration.pcap --input $S/research/02_variations.pcapng \
+  --input $S/research/03_combined_messages.pcap \
+  --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml --out draft.yaml
+protoledger apply --interpretation examples/thermostand/interpretation.yaml \
+  --input $S/additional/04_new_observations.pcapng \
+  --action-log $S/action_journal.csv --mapping examples/thermostand/mapping.yaml
+protoledger verify examples/thermostand/project/thermostand.protoledger
+```
+
+## Демо
+
+- Запись экрана полного цикла на «Термостенде» (около минуты): `protoledger-demo.webm` на странице [Releases](https://github.com/protoledger/protoledger/releases).
+- Тот же сценарий можно прогнать самому — браузер нажимает кнопки и снимает каждый шаг: `docker compose up --build -d`, затем `bash e2e/run.sh` (подробнее — [docs/dev.md](docs/dev.md#демо-сценарий-в-браузере)).
+- Готовый проект с этим исследованием — `examples/thermostand/project`: открывается в приложении как есть.
+
 ## Структура репозитория
 
 | Путь | Что |
@@ -79,6 +120,7 @@ tar -xzf protoledger-*-linux-x86_64.tar.gz
 | `backend/` | движок на Rust: чтение записей, сборка TCP, интерпретация, проверка, API, CLI ([protoledger-backend](https://github.com/protoledger/protoledger-backend)) |
 | `frontend/` | интерфейс на Nuxt ([protoledger-frontend](https://github.com/protoledger/protoledger-frontend)) |
 | `examples/` | примеры входных данных и ожидаемые результаты |
+| `e2e/` | демо-сценарий в браузере: нажатия, скриншоты, запись экрана |
 | `docs/` | [как пользоваться — шаг за шагом](docs/guide.md), [архитектура](docs/architecture.md), [форматы](docs/formats.md), [проверка требований](docs/requirements.md), [безопасность](docs/security.md), [ограничения и замеры](docs/limits.md) |
 | `bench/` | замеры времени и памяти |
 | `Dockerfile`, `compose.yaml` | сборка и запуск |
